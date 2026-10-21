@@ -1,0 +1,145 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import ReviewNote from '@/components/ReviewNote.astro';
+import { site } from '@/config/site';
+
+const entity = site.legalEntity ?? site.name;
+const LAST_UPDATED = '21 October 2026';
+const analyticsOn = !!site.analyticsToken;
+const turnstileOn = !!site.turnstileSiteKey;
+---
+<PageLayout
+  title="Privacy policy"
+  description="How Ilelah Technologies collects, uses and protects personal information submitted through this website."
+  heading="Privacy policy"
+  intro={`How ${site.name} handles the personal information you share with us through this website.`}
+  crumbs={[{ label: 'Privacy policy', href: '/privacy/' }]}
+  cta={false}
+>
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <p class="fine">Last updated: {LAST_UPDATED}</p>
+
+        <ReviewNote>This policy is a draft prepared for a website that collects enquiries only. Have it reviewed by a qualified legal professional against the Nigeria Data Protection Act 2023 and NDPC guidance before launch. Confirm the legal entity name, retention periods and processors. See docs/PRIVACY_REVIEW.md.</ReviewNote>
+
+        <h2>Who we are</h2>
+        <p>
+          This website is operated by {entity} ("we", "us"), a technology business {site.location.display.replace('Based', 'based')}.
+          We are responsible for the personal information collected through this website.
+        </p>
+        {site.registrationNumber && <p>Registration number: {site.registrationNumber}.</p>}
+        <ReviewNote>Insert the exact CAC-registered entity name in src/config/site.ts (legalEntity) once confirmed. Add the registration number only if you want it published.</ReviewNote>
+        <p>
+          To contact us about privacy, email <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> or call {site.contact.phoneDisplay}.
+        </p>
+
+        <h2>What we collect</h2>
+        <h3>Information you give us</h3>
+        <p>When you send an enquiry, quote request, demonstration request or training enquiry, we collect:</p>
+        <ul>
+          <li>your name, email address and, if you provide them, your phone or WhatsApp number and organisation</li>
+          <li>your country</li>
+          <li>the service or course you are interested in, and what you tell us about your needs</li>
+          <li>an approximate budget and timeline, if you choose to give them</li>
+          <li>how you would like us to contact you</li>
+        </ul>
+        <p>Please do not include sensitive personal information, such as health details or identity numbers, or other people's personal data, in your message.</p>
+        <p>If you contact us by email, phone or WhatsApp, we receive the information you share through that channel.</p>
+
+        <h3>Information collected automatically</h3>
+        <ul>
+          <li>
+            <strong>Technical information.</strong> When you use the website, our hosting provider processes technical
+            information such as your IP address, browser type and the pages requested, to deliver the site and keep it secure.
+          </li>
+          <li>
+            <strong>Spam and abuse protection.</strong> When you submit a form, we use your IP address to limit repeated
+            submissions.{turnstileOn && ' A security check from Cloudflare (Turnstile) also helps confirm that the form is being used by a person and not an automated program.'}
+          </li>
+          {analyticsOn && (
+            <li>
+              <strong>Visitor statistics.</strong> We use Cloudflare Web Analytics to count page visits. It does not use
+              cookies, and we cannot use it to identify you.
+            </li>
+          )}
+        </ul>
+        <p>This website does not use advertising or tracking cookies.</p>
+
+        <h2>How we use your information</h2>
+        <ul>
+          <li>to reply to your enquiry and discuss your needs</li>
+          <li>to prepare a quote, proposal, demonstration or training arrangement you have asked for</li>
+          <li>to keep a record of our correspondence with you</li>
+          <li>to protect the website and our forms from spam and misuse</li>
+        </ul>
+        <p>We do not sell your personal information, and we do not use enquiry details to send you marketing.</p>
+
+        <h2>Our lawful basis</h2>
+        <p>
+          We process enquiry information because you have asked us to respond and agreed to us using your details for that
+          purpose, and, where you are considering working with us, to take steps at your request before entering into a
+          contract. We process technical information on the basis of our legitimate interest in running a secure and
+          reliable website.
+        </p>
+        <ReviewNote>Confirm the lawful bases with your legal adviser.</ReviewNote>
+
+        <h2>Who we share it with</h2>
+        <p>We share personal information only with service providers who help us run this website and handle enquiries:</p>
+        <ul>
+          <li><strong>Cloudflare</strong>: website hosting, security{turnstileOn ? ', the form security check' : ''}{analyticsOn ? ' and visitor statistics' : ''}.</li>
+          <li><strong>Resend</strong>: delivers the details you submit through our forms to our business inbox.</li>
+          <li><strong>Our email provider</strong>: stores the enquiry emails we receive.</li>
+        </ul>
+        <ReviewNote>Name your mailbox provider (e.g. Zoho Mail or Google Workspace) once chosen.</ReviewNote>
+        <p>We may also disclose information where the law requires it.</p>
+
+        <h2>International transfers</h2>
+        <p>
+          Some of our service providers process information outside Nigeria, including in the United States and Europe. We
+          use reputable providers that apply recognised security and data protection safeguards.
+        </p>
+
+        <h2>How long we keep it</h2>
+        <p>
+          We keep enquiry correspondence for as long as needed to respond and, if we work together, for the length of our
+          working relationship and any period required for legal, accounting or record-keeping purposes. Enquiries that do
+          not lead to work are deleted after 24 months.
+        </p>
+        <ReviewNote>Confirm the 24-month retention period, and that you will actually delete old enquiries on that schedule.</ReviewNote>
+
+        <h2>How we protect it</h2>
+        <p>
+          The website is served over an encrypted connection (HTTPS). Form submissions are checked and delivered by a
+          secure server-side process, and access to our business inbox is protected. No method of transmission or storage
+          is completely secure, but we take reasonable steps to protect your information.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>Under the Nigeria Data Protection Act 2023 and other laws that may apply to you, you can ask us to:</p>
+        <ul>
+          <li>confirm whether we hold personal information about you and give you a copy</li>
+          <li>correct information that is inaccurate or incomplete</li>
+          <li>delete your information, or restrict how we use it</li>
+          <li>provide your information in a commonly used format</li>
+          <li>stop processing it, or withdraw your consent at any time</li>
+        </ul>
+        <p>
+          To make a request, contact us using the details above. We may need to confirm your identity first. If you are not
+          satisfied with our response, you can complain to the Nigeria Data Protection Commission or the data protection
+          authority where you live.
+        </p>
+
+        <h2>Children</h2>
+        <p>
+          This website is intended for adults and organisations. We do not knowingly collect personal information from
+          children through it. Student information that schools share with us as part of a school project is handled under
+          a separate agreement with the school.
+        </p>
+
+        <h2>Changes to this policy</h2>
+        <p>We may update this policy as our website or services change. The date at the top shows when it was last updated.</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,218 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { getCollection } from 'astro:content';
+import { faqSchema } from '@/lib/schema';
+
+const faqs = (await getCollection('faqs', (f) => f.data.group === 'Schools and CBT')).sort((a, b) => a.data.order - b.data.order);
+const quoteHref = '/quote/?service=edutech';
+
+const problems = [
+  { title: 'Marking takes weeks', text: 'Teachers spend evenings marking objective papers by hand, and results are late every term.' },
+  { title: 'Results contain errors', text: 'Scores are copied between sheets several times before they reach a report card, and mistakes creep in.' },
+  { title: 'Records are scattered', text: 'Student details, registrations and results sit in different files, notebooks and computers.' },
+  { title: 'The lab is not ready', text: 'Computers fail, the network is unreliable and nobody is sure which machines work on exam day.' },
+];
+
+const scoping = [
+  'The number of students, and the classes and subjects involved',
+  'How many computers you have, and how many are working',
+  'How your computers are connected today (network, Wi-Fi, internet)',
+  'How exams, records or results are handled at the moment',
+  'Who will run the system day to day',
+  'Any deadlines, such as the next examination period',
+];
+---
+<PageLayout
+  title="EduTech, CBT and school systems"
+  description="Computer-based testing, results, school management systems and ICT lab support for schools in Nigeria, from Ilelah Technologies."
+  heading="EduTech, CBT and school systems"
+  intro="Technology for schools that has to work on exam day. We plan, build and support computer-based testing, results and school management systems around your students, staff and equipment."
+  crumbs={[{ label: 'EduTech', href: '/edutech/' }]}
+  jsonLd={faqs.length ? [faqSchema(faqs.map((f) => f.data))] : []}
+  cta={{
+    heading: 'Plan a CBT or school system',
+    body: 'Tell us about your school and what you want to improve. We will ask the right questions and suggest a realistic plan for your equipment and timetable.',
+    primaryLabel: 'Request a consultation',
+    primaryHref: quoteHref,
+    topic: 'CBT and school systems',
+  }}
+>
+  <div slot="header" class="btn-row">
+    <a class="btn btn--primary" href={quoteHref}>Request a consultation</a>
+    <a class="btn btn--secondary" href="#scoping">What we need from you</a>
+  </div>
+
+  <section class="section" aria-labelledby="problems">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="problems">Problems we help schools solve</h2>
+        <p>Our founder has worked in school ICT administration, so these are problems we have seen first-hand rather than read about.</p>
+      </div>
+      <ul class="problems" role="list">
+        {problems.map((p) => <li><h3>{p.title}</h3><p>{p.text}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--mist" aria-labelledby="cbt">
+    <div class="container split">
+      <div class="stack">
+        <span class="area-icon"><Icon name="exam" size={30} /></span>
+        <h2 id="cbt">Computer-based testing (CBT)</h2>
+        <p class="lede">Exams taken on computers and marked automatically, with results ready when the exam closes.</p>
+      </div>
+      <div class="stack-l">
+        <p>The CBT systems we build are designed around the reality of a school computer laboratory:</p>
+        <ul class="node-list">
+          <li><strong>Runs on your own network.</strong> The system can be hosted on a computer inside the school, so exams continue even when the internet is down.</li>
+          <li><strong>Simple, secure sign-in.</strong> Students sign in with details they already have, such as an admission number and a PIN, with limits on repeated failed attempts.</li>
+          <li><strong>The right exams for the right students.</strong> Each student sees only the papers for their own class and subjects.</li>
+          <li><strong>Automatic marking.</strong> Objective questions are scored instantly, removing hand-marking and copying errors.</li>
+          <li><strong>A separate admin area.</strong> Staff set up exams, manage students and view results without access to student screens.</li>
+        </ul>
+        <p class="muted">We confirm the exact features for your school during scoping, based on your exams and equipment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="areas">
+    <div class="container">
+      <h2 id="areas" class="visually-hidden">More school solutions</h2>
+      <div class="areas">
+        <article class="area">
+          <span class="area-icon"><Icon name="users" size={28} /></span>
+          <h3>School management systems</h3>
+          <p>Student records, class lists, registration and day-to-day administration in one organised system, with access controlled by role.</p>
+        </article>
+        <article class="area">
+          <span class="area-icon"><Icon name="chart" size={28} /></span>
+          <h3>Results and assessment tools</h3>
+          <p>Scores collected once and compiled automatically into results and reports, with fewer manual steps and fewer errors.</p>
+        </article>
+        <article class="area">
+          <span class="area-icon"><Icon name="globe" size={28} /></span>
+          <h3>Online applications and registration</h3>
+          <p>Admission applications and registration forms that parents can complete on a phone, delivered to the school in an organised way.</p>
+        </article>
+        <article class="area">
+          <span class="area-icon"><Icon name="code" size={28} /></span>
+          <h3>Custom education software</h3>
+          <p>Tools for a specific need your school has, or changes to an existing system so it fits how your school works.</p>
+        </article>
+        <article class="area">
+          <span class="area-icon"><Icon name="network" size={28} /></span>
+          <h3>ICT laboratory support</h3>
+          <p>Setting up and maintaining lab computers and networks so they are ready for classes and exams. On-site work is available in and around Bauchi.</p>
+        </article>
+        <article class="area">
+          <span class="area-icon"><Icon name="academy" size={28} /></span>
+          <h3>Staff and student digital skills</h3>
+          <p>Training for teachers and administrators on new systems, and digital skills for students, through our <a href="/academy/">Digital Academy</a>.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist" id="scoping" aria-labelledby="scope-heading">
+    <div class="container split">
+      <div class="stack">
+        <h2 id="scope-heading">What we need to scope your project</h2>
+        <p class="muted">You do not need all of this before contacting us. It is what we will ask about during the first conversation.</p>
+      </div>
+      <div class="stack-l">
+        <ul class="node-list">
+          {scoping.map((s) => <li>{s}</li>)}
+        </ul>
+        <div class="notice notice--info">
+          <p><strong>Your students' data stays protected.</strong> We handle student information only as needed to set up and support your system, and we never publish it. We do not name schools we work with without their permission.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {faqs.length > 0 && (
+    <section class="section" aria-labelledby="edu-faq">
+      <div class="container split">
+        <h2 id="edu-faq">Questions schools ask</h2>
+        <div class="faq-list">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.data.question}</summary>
+              <p>{f.data.answer}</p>
+            </details>
+          ))}
+          <p><a href="/insights/preparing-your-school-for-computer-based-testing/">Read our checklist for preparing your school for CBT</a></p>
+        </div>
+      </div>
+    </section>
+  )}
+</PageLayout>
+
+<style>
+  .problems {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .problems {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 68rem) {
+    .problems {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .problems li {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    padding-top: var(--s-4);
+    border-top: 2px solid var(--gold);
+  }
+  .problems h3 {
+    font-size: var(--step-1);
+  }
+  .problems p {
+    color: var(--ink-soft);
+  }
+  .area-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--radius-m);
+    background: var(--navy);
+    color: var(--gold);
+  }
+  .areas {
+    display: grid;
+    gap: var(--s-7) var(--s-7);
+  }
+  @media (min-width: 48rem) {
+    .areas {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 68rem) {
+    .areas {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .area {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+  .area .area-icon {
+    background: var(--navy-tint);
+    color: var(--navy);
+  }
+  .area h3 {
+    font-size: var(--step-1);
+  }
+  .area p {
+    color: var(--ink-soft);
+  }
+</style>

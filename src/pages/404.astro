@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found" description="The page you were looking for could not be found." noindex>
+  <section class="section nf">
+    <div class="container nf__inner">
+      <p class="nf__code" aria-hidden="true">404</p>
+      <h1>We could not find that page</h1>
+      <p class="lede">The link may be out of date, or the address may have been typed incorrectly. These pages might help:</p>
+      <ul class="nf__links" role="list">
+        <li><a href="/">Homepage</a></li>
+        <li><a href="/services/">Our services</a></li>
+        <li><a href="/products/business-suite/">Ilelah Business Suite</a></li>
+        <li><a href="/edutech/">EduTech and CBT</a></li>
+        <li><a href="/academy/">Digital Academy</a></li>
+        <li><a href="/contact/">Contact us</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf__inner {
+    display: grid;
+    gap: var(--s-5);
+    max-width: 44rem;
+  }
+  .nf__code {
+    font-size: clamp(3rem, 2rem + 6vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--navy);
+    letter-spacing: -0.04em;
+  }
+  .nf__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+  }
+  .nf__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-weight: 640;
+  }
+</style>

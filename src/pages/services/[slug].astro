@@ -1,0 +1,205 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { site } from '@/config/site';
+
+export async function getStaticPaths() {
+  const all = await getCollection('services', (s) => site.showDrafts || !s.data.draft);
+  return all.map((entry) => ({ params: { slug: entry.id }, props: { entry, all } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'services'>;
+  all: CollectionEntry<'services'>[];
+}
+const { entry, all } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const quoteHref = `/quote/?service=${d.enquiryKey}`;
+const others = all.filter((s) => s.id !== entry.id).sort((a, b) => a.data.order - b.data.order);
+---
+<PageLayout
+  title={d.title}
+  description={d.description}
+  intro={d.summary}
+  crumbs={[{ label: 'Services', href: '/services/' }, { label: d.shortTitle, href: `/services/${entry.id}/` }]}
+  cta={{ primaryHref: quoteHref, topic: d.shortTitle.toLowerCase() }}
+>
+  <div slot="header" class="btn-row">
+    <a class="btn btn--primary" href={quoteHref}>Request a quote</a>
+    <a class="btn btn--secondary" href="/contact/">Contact us</a>
+  </div>
+
+  <section class="section">
+    <div class="container split">
+      <div class="stack">
+        <h2>Who this is for</h2>
+        <ul class="node-list">
+          {d.whoFor.map((w) => <li>{w}</li>)}
+        </ul>
+      </div>
+      <div class="prose approach">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <div class="section-head">
+        <h2>What we can do for you</h2>
+      </div>
+      <ul class="includes" role="list">
+        {d.includes.map((i) => (
+          <li>
+            <h3>{i.title}</h3>
+            <p>{i.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {d.process.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>How a project runs</h2>
+          <p>Every project follows the same stages. You approve the scope and the quote before development begins.</p>
+        </div>
+        <ol class="process" role="list">
+          {d.process.map((p) => (
+            <li>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  {(d.deliverables.length > 0 || d.delivery) && (
+    <section class="section">
+      <div class="container split split--even">
+        {d.deliverables.length > 0 && (
+          <div class="stack">
+            <h2>What you receive</h2>
+            <ul class="node-list">
+              {d.deliverables.map((x) => <li>{x}</li>)}
+            </ul>
+            <p class="fine">The exact deliverables for your project are listed in your written quote.</p>
+          </div>
+        )}
+        {d.delivery && (
+          <div class="stack">
+            <h2>Remote and on-site work</h2>
+            <dl class="facts">
+              {d.delivery.remote && (
+                <div><dt><span class="dt-icon"><Icon name="globe" size={18} /></span> Remote</dt><dd>{d.delivery.remote}</dd></div>
+              )}
+              {d.delivery.onsite && (
+                <div><dt><span class="dt-icon"><Icon name="pin" size={18} /></span> On-site</dt><dd>{d.delivery.onsite}</dd></div>
+              )}
+            </dl>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="section section--mist section--tight">
+    <div class="container">
+      <h2 class="other-title">Other services</h2>
+      <ul class="other" role="list">
+        {others.map((o) => <li><a href={`/services/${o.id}/`}>{o.data.title}</a></li>)}
+        <li><a href="/edutech/">EduTech, CBT and school systems</a></li>
+        <li><a href="/academy/">Digital Academy training</a></li>
+      </ul>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .approach {
+    font-size: var(--step-0);
+  }
+  .includes {
+    display: grid;
+    gap: var(--s-6) var(--s-7);
+  }
+  @media (min-width: 48rem) {
+    .includes {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 68rem) {
+    .includes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .includes li {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    padding-top: var(--s-4);
+    border-top: 2px solid var(--navy);
+  }
+  .includes h3 {
+    font-size: var(--step-1);
+  }
+  .includes p {
+    color: var(--ink-soft);
+  }
+  .process {
+    display: grid;
+    gap: 0;
+    counter-reset: step;
+    border-top: 1px solid var(--line);
+    max-width: 56rem;
+  }
+  .process li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    column-gap: var(--s-4);
+    padding-block: var(--s-4);
+    border-bottom: 1px solid var(--line);
+  }
+  .process li::before {
+    content: counter(step);
+    grid-row: span 2;
+    font-size: var(--step-2);
+    font-weight: 760;
+    color: var(--gold-ink);
+    line-height: 1.1;
+  }
+  .process h3 {
+    font-size: var(--step-1);
+  }
+  .process p {
+    color: var(--ink-soft);
+  }
+  .dt-icon {
+    display: inline-flex;
+    vertical-align: -3px;
+    color: var(--navy);
+    margin-right: 0.25rem;
+  }
+  .other-title {
+    font-size: var(--step-1);
+    margin-bottom: var(--s-4);
+  }
+  .other {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+  }
+  .other a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    font-weight: 600;
+  }
+</style>

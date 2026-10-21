@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# SERVER SECRETS for the enquiry form Function (functions/api/enquiry.ts).
+# NEVER commit real values. NEVER prefix these with PUBLIC_.
+#
+# Local testing with `npm run pages:dev`: copy this file to `.dev.vars`.
+# Production: Cloudflare dashboard > your Pages project > Settings >
+# Environment variables > add each as an encrypted "Secret".
+# See docs/ENVIRONMENT_SETUP.md and docs/EMAIL_SETUP.md.
+# ---------------------------------------------------------------------------
+
+# Resend API key (https://resend.com > API Keys). Starts with "re_".
+RESEND_API_KEY=
+
+# Where enquiries are delivered. Comma-separate to send to more than one inbox.
+ENQUIRY_TO_EMAIL=
+
+# Sender shown on enquiry emails. Must use a domain verified in Resend.
+# Example: Ilelah Website <website@ilelahtech.com>
+ENQUIRY_FROM_EMAIL=
+
+# Cloudflare Turnstile SECRET key (pair of PUBLIC_TURNSTILE_SITE_KEY).
+TURNSTILE_SECRET_KEY=
+
+# Optional: extra origins allowed to post the form, e.g. a preview address.
+ALLOWED_ORIGINS=
+
+# Optional rate limit tuning (defaults: 5 submissions per 600 seconds per IP).
+RATE_LIMIT_MAX=5
+RATE_LIMIT_WINDOW=600

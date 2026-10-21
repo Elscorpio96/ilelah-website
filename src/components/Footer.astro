@@ -1,0 +1,144 @@
+---
+import { site, whatsappLink, activeSocialLinks } from '@/config/site';
+import { footerNav } from '@/config/navigation';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+const wa = whatsappLink();
+const socials = activeSocialLinks();
+---
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <a href="/" aria-label="Ilelah Technologies home" class="footer-logo">
+        <img src="/brand/ilelah-logo-horizontal-reverse.svg" alt="" width="460" height="64" />
+      </a>
+      <p>Business software, school systems, ICT support, design and digital skills training for organisations in Nigeria and further afield.</p>
+      <p class="footer-place"><Icon name="pin" size={18} /> {site.location.display}</p>
+    </div>
+
+    <div class="footer-contact">
+      <h2 class="footer-heading">Talk to us</h2>
+      <ul role="list" class="contact-list">
+        <li><a href={`mailto:${site.contact.email}`} data-track="email_click"><Icon name="mail" size={18} /> {site.contact.email}</a></li>
+        <li><a href={`tel:${site.contact.phone}`} data-track="phone_click"><Icon name="call" size={18} /> {site.contact.phoneDisplay}</a></li>
+        {wa && <li><a href={wa} rel="noopener" target="_blank" data-track="whatsapp_click"><Icon name="chat" size={18} /> WhatsApp us<span class="visually-hidden"> (opens WhatsApp)</span></a></li>}
+      </ul>
+      {socials.length > 0 && (
+        <ul role="list" class="social-list">
+          {socials.map((s) => <li><a href={s.href} rel="noopener me" target="_blank">{s.label}</a></li>)}
+        </ul>
+      )}
+    </div>
+
+    {footerNav.map((col) => (
+      <nav class="footer-col" aria-label={col.heading}>
+        <h2 class="footer-heading">{col.heading}</h2>
+        <ul role="list">
+          {col.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </nav>
+    ))}
+  </div>
+
+  <div class="container footer-base">
+    <p>© {year} {site.legalEntity ?? site.name}. All rights reserved.</p>
+    <p>{site.tagline}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy-deep);
+    color: var(--on-navy-soft);
+    font-size: var(--step--1);
+    padding-top: var(--s-8);
+  }
+  .site-footer a {
+    color: var(--on-navy);
+    text-decoration: none;
+  }
+  .site-footer a:hover {
+    text-decoration: underline;
+  }
+  .footer-top {
+    display: grid;
+    gap: var(--s-7) var(--s-6);
+    grid-template-columns: 1fr;
+    padding-bottom: var(--s-7);
+  }
+  @media (min-width: 40rem) {
+    .footer-top {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 68rem) {
+    .footer-top {
+      grid-template-columns: 1.6fr 1.3fr repeat(3, 1fr);
+    }
+    .footer-brand {
+      grid-column: auto;
+    }
+  }
+  .footer-brand {
+    display: grid;
+    gap: var(--s-4);
+    align-content: start;
+    max-width: 26rem;
+  }
+  .footer-logo img {
+    height: 2rem;
+    width: auto;
+  }
+  .footer-place {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    color: var(--on-navy);
+  }
+  .footer-place :global(svg) {
+    color: var(--gold);
+  }
+  .footer-heading {
+    font-size: var(--step--1);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.01em;
+    margin-bottom: var(--s-4);
+  }
+  .footer-col ul,
+  .contact-list,
+  .social-list {
+    display: grid;
+    gap: var(--s-2);
+  }
+  .footer-col a,
+  .contact-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 2rem;
+    overflow-wrap: anywhere;
+  }
+  .contact-list :global(svg) {
+    color: var(--gold);
+    flex: none;
+  }
+  .social-list {
+    margin-top: var(--s-4);
+    grid-auto-flow: column;
+    justify-content: start;
+    gap: var(--s-4);
+  }
+  .footer-base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-5);
+    padding-block: var(--s-5);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+</style>

@@ -1,0 +1,122 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { site } from '@/config/site';
+import { statusLabel, statusHelp } from '@/lib/portfolio';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('portfolio', (p) => site.showDrafts || p.data.approved);
+  return projects.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'portfolio'>;
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+---
+<PageLayout
+  title={`${d.title}: project overview`}
+  heading={d.title}
+  description={d.description}
+  intro={d.summary}
+  crumbs={[{ label: 'Portfolio', href: '/portfolio/' }, { label: d.title, href: `/portfolio/${entry.id}/` }]}
+>
+  <div slot="header" class="meta">
+    <span class="badge">{d.category}</span>
+    <span class="badge">{statusLabel[d.status]}</span>
+    {!d.approved && <span class="badge badge--draft">Draft: hidden on live site</span>}
+  </div>
+
+  <section class="section">
+    <div class="container split split--reverse">
+      <div class="stack-l">
+        <div class="stack">
+          <h2 class="h-sub">The problem</h2>
+          <p>{d.problem}</p>
+        </div>
+        <div class="stack">
+          <h2 class="h-sub">What we built</h2>
+          <p>{d.solution}</p>
+        </div>
+        <div class="prose"><Content /></div>
+        {d.results.length > 0 && (
+          <div class="stack">
+            <h2 class="h-sub">Results</h2>
+            <ul class="node-list">{d.results.map((r) => <li>{r}</li>)}</ul>
+          </div>
+        )}
+      </div>
+
+      <aside class="panel facts-panel" aria-label="Project facts">
+        <dl class="facts">
+          <div><dt>Type</dt><dd>{statusLabel[d.status]}. {statusHelp[d.status]}</dd></div>
+          <div><dt>Category</dt><dd>{d.category}</dd></div>
+          <div><dt>Our role</dt><dd>{d.role}</dd></div>
+          {d.technologies.length > 0 && <div><dt>Technologies</dt><dd>{d.technologies.join(', ')}</dd></div>}
+        </dl>
+        {d.relatedLink && <a class="btn btn--secondary" href={d.relatedLink.href}>{d.relatedLink.label}</a>}
+      </aside>
+    </div>
+  </section>
+
+  {d.images.length > 0 && (
+    <section class="section section--mist" aria-labelledby="shots">
+      <div class="container">
+        <h2 id="shots" class="h-sub shots-title">Screenshots</h2>
+        <div class="shots">
+          {d.images.map((img) => (
+            <figure>
+              <Image src={img.src} alt={img.alt} widths={[480, 800, 1200]} sizes="(min-width: 64rem) 36rem, 100vw" loading="lazy" />
+              {img.caption && <figcaption class="fine">{img.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</PageLayout>
+
+<style>
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .h-sub {
+    font-size: var(--step-2);
+  }
+  .facts-panel {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+  }
+  .facts-panel .facts > div {
+    grid-template-columns: 1fr;
+    gap: var(--s-1);
+  }
+  .facts-panel .btn {
+    white-space: normal;
+  }
+  .shots-title {
+    margin-bottom: var(--s-5);
+  }
+  .shots {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .shots {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .shots img {
+    border-radius: var(--radius-m);
+    border: 1px solid var(--line);
+  }
+  .shots figcaption {
+    margin-top: var(--s-2);
+  }
+</style>

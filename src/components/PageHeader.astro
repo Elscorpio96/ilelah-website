@@ -1,0 +1,66 @@
+---
+export interface Crumb {
+  label: string;
+  href: string;
+}
+interface Props {
+  heading: string;
+  intro?: string;
+  crumbs?: Crumb[];
+}
+const { heading, intro, crumbs = [] } = Astro.props;
+---
+<section class="page-header">
+  <div class="container">
+    {crumbs.length > 1 && (
+      <nav aria-label="Breadcrumb" class="crumbs">
+        <ol role="list">
+          {crumbs.map((c, i) => (
+            <li>
+              {i < crumbs.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <div class="page-header__body">
+      <h1>{heading}</h1>
+      {intro && <p class="lede">{intro}</p>}
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-header {
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem) clamp(2.5rem, 2rem + 2.5vw, 4rem);
+    border-bottom: 1px solid var(--line);
+    background:
+      linear-gradient(90deg, var(--gold) 0 3rem, transparent 3rem) bottom left / 100% 3px no-repeat,
+      var(--paper);
+  }
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1) var(--s-2);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    margin-bottom: var(--s-5);
+  }
+  .crumbs li + li::before {
+    content: '/';
+    margin-right: var(--s-2);
+    color: var(--line-strong);
+  }
+  .crumbs a {
+    color: var(--ink-soft);
+  }
+  .page-header__body {
+    display: grid;
+    gap: var(--s-4);
+    max-width: 52rem;
+  }
+  .page-header__body :global(.btn-row) {
+    margin-top: var(--s-3);
+  }
+</style>

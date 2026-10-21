@@ -1,0 +1,101 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { site, formatNaira } from '@/config/site';
+
+const pricing = site.businessSuitePricing;
+---
+<PageLayout
+  title="Products"
+  description="Software products from Ilelah Technologies, including Ilelah Business Suite for shops, and our school and CBT systems."
+  heading="Products"
+  intro="Alongside client projects, we build and support our own software. Each product grew out of a real problem we saw businesses and schools struggling with."
+  crumbs={[{ label: 'Products', href: '/products/' }]}
+>
+  <section class="section">
+    <div class="container">
+      <article class="product">
+        <div class="product__mark" aria-hidden="true"><Icon name="stock" size={36} /></div>
+        <div class="product__body stack">
+          <h2><a href="/products/business-suite/">Ilelah Business Suite</a></h2>
+          <p class="lede">A business management app for shops and small businesses, focused on sales tracking, stock management and pricing. Runs on Android phones and tablets.</p>
+          {pricing.showPricing && (
+            <p class="product__price">Offline version {formatNaira(pricing.offline)}, online version {formatNaira(pricing.online)}</p>
+          )}
+          <div class="btn-row">
+            <a class="btn btn--primary" href="/products/business-suite/">See the product</a>
+            <a class="btn btn--secondary" href="/quote/?service=business-suite&intent=demo">Request a demo</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product">
+        <div class="product__mark product__mark--alt" aria-hidden="true"><Icon name="exam" size={36} /></div>
+        <div class="product__body stack">
+          <h2><a href="/edutech/">School and CBT systems</a></h2>
+          <p class="lede">Computer-based testing, results and school administration systems, set up to match each school's classes, subjects and equipment.</p>
+          <p class="muted">These are provided as tailored solutions rather than an off-the-shelf download, so we start with a conversation about your school.</p>
+          <div class="btn-row">
+            <a class="btn btn--primary" href="/edutech/">Explore EduTech solutions</a>
+            <a class="btn btn--secondary" href="/quote/?service=edutech">Discuss your school</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container split">
+      <h2>Have an idea for a product?</h2>
+      <div class="stack">
+        <p class="lede">We also help founders and organisations turn an idea into a first working version, so it can be tested with real users before a bigger investment.</p>
+        <div class="btn-row"><a class="btn btn--secondary" href="/services/software-development/">Custom software development</a></div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .product {
+    position: relative;
+    display: grid;
+    gap: var(--s-5);
+    padding-block: var(--s-7);
+    border-bottom: 1px solid var(--line);
+  }
+  .product:first-child {
+    padding-top: 0;
+  }
+  @media (min-width: 48rem) {
+    .product {
+      grid-template-columns: 6rem 1fr;
+      gap: var(--s-7);
+    }
+  }
+  .product__mark {
+    display: grid;
+    place-items: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--radius-l);
+    background: var(--navy);
+    color: var(--gold);
+  }
+  .product__mark--alt {
+    background: var(--navy-tint);
+    color: var(--navy);
+  }
+  .product__body {
+    max-width: 46rem;
+  }
+  .product h2 a {
+    text-decoration: none;
+  }
+  .product h2 a:hover {
+    text-decoration: underline;
+  }
+  .product__price {
+    font-weight: 640;
+    color: var(--navy);
+  }
+</style>

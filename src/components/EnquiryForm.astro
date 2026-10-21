@@ -1,0 +1,525 @@
+---
+/**
+ * Enquiry form used on /contact/ and /quote/.
+ * Submits to the Cloudflare Pages Function at /api/enquiry.
+ * Success is only shown after the server confirms delivery.
+ */
+import { getCollection } from 'astro:content';
+import { site, whatsappLink } from '@/config/site';
+import { SERVICE_OPTIONS, BUDGET_OPTIONS, TIMELINE_OPTIONS, CONTACT_METHOD_OPTIONS, LIMITS, type ServiceKey } from '@/lib/enquiry';
+import Icon from './Icon.astro';
+
+interface Props {
+  variant?: 'contact' | 'quote';
+  defaultService?: ServiceKey | '';
+}
+const { variant = 'quote', defaultService = '' } = Astro.props;
+const isQuote = variant === 'quote';
+const courses = (await getCollection('courses', (c) => site.showDrafts || !c.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const wa = whatsappLink(isQuote ? 'a project' : undefined);
+const id = (n: string) => `${variant}-${n}`;
+---
+<div class="enquiry" data-enquiry data-variant={variant}>
+  <div class="notice notice--danger error-summary" data-error-summary hidden tabindex="-1" role="alert">
+    <p><strong>Some details need attention.</strong></p>
+    <ul data-error-list></ul>
+  </div>
+
+  <form class="enquiry-form" method="post" action="/api/enquiry" novalidate data-form>
+    <input type="hidden" name="formType" value={isQuote ? 'quote' : 'contact'} data-form-type />
+    <input type="hidden" name="startedAt" value="" data-started-at />
+
+    <!-- Honeypot: hidden from people, filled in by bots -->
+    <div class="hp" aria-hidden="true">
+      <label for={id('website')}>Leave this field empty</label>
+      <input type="text" id={id('website')} name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <fieldset class="form-section">
+      <legend class="form-section__title">{isQuote ? 'About your project' : 'Your enquiry'}</legend>
+
+      <div class="field">
+        <label for={id('service')}>{isQuote ? 'What do you need help with?' : 'What is your message about?'}</label>
+        <select class="select" id={id('service')} name="service" required aria-describedby={id('service-error')} data-service>
+          <option value="" selected={!defaultService}>Choose a service</option>
+          {SERVICE_OPTIONS.map((o) => <option value={o.value} selected={o.value === defaultService}>{o.label}</option>)}
+        </select>
+        <p class="field-error" id={id('service-error')} data-error-for="service"></p>
+      </div>
+
+      <div class="field" data-show-when="training" hidden>
+        <label for={id('course')}>Which course? <span class="optional">(optional)</span></label>
+        <select class="select" id={id('course')} name="course" data-course>
+          <option value="">Not sure yet, or training for a group</option>
+          {courses.map((c) => <option value={c.data.title} data-slug={c.id}>{c.data.title}</option>)}
+        </select>
+      </div>
+
+      <div class="field check" data-show-when="business-suite" hidden>
+        <input type="checkbox" id={id('demo')} data-demo />
+        <label for={id('demo')}>I would like a demonstration of Ilelah Business Suite</label>
+      </div>
+
+      <div class="field">
+        <label for={id('message')}>{isQuote ? 'Describe what you need' : 'Your message'}</label>
+        <p class="hint" id={id('message-hint')}>
+          {isQuote
+            ? 'Explain the problem you want to solve, who will use the result and anything you already have in place.'
+            : 'Tell us how we can help. Include any details that will help us reply usefully.'}
+        </p>
+        <textarea class="textarea" id={id('message')} name="message" required minlength={LIMITS.message.min} maxlength={LIMITS.message.max} aria-describedby={`${id('message-hint')} ${id('message-error')}`}></textarea>
+        <p class="field-error" id={id('message-error')} data-error-for="message"></p>
+      </div>
+
+      {isQuote && (
+        <>
+          <div class="field">
+            <label for={id('outcome')}>What would a good result look like? <span class="optional">(optional)</span></label>
+            <textarea class="textarea textarea--short" id={id('outcome')} name="outcome" maxlength={LIMITS.outcome.max} aria-describedby={id('outcome-error')}></textarea>
+            <p class="field-error" id={id('outcome-error')} data-error-for="outcome"></p>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for={id('budget')}>Approximate budget <span class="optional">(optional)</span></label>
+              <select class="select" id={id('budget')} name="budget">
+                <option value="">Prefer not to say</option>
+                {BUDGET_OPTIONS.map((o) => <option value={o.value}>{o.label}</option>)}
+              </select>
+              <p class="hint">Outside Nigeria? Mention your budget and currency in the description.</p>
+            </div>
+            <div class="field">
+              <label for={id('timeline')}>When do you need it? <span class="optional">(optional)</span></label>
+              <select class="select" id={id('timeline')} name="timeline">
+                <option value="">Not decided</option>
+                {TIMELINE_OPTIONS.map((o) => <option value={o.value}>{o.label}</option>)}
+              </select>
+            </div>
+          </div>
+        </>
+      )}
+    </fieldset>
+
+    <fieldset class="form-section">
+      <legend class="form-section__title">Your details</legend>
+      <div class="field-row">
+        <div class="field">
+          <label for={id('name')}>Full name</label>
+          <input class="input" id={id('name')} name="name" type="text" autocomplete="name" required maxlength={LIMITS.name.max} aria-describedby={id('name-error')} />
+          <p class="field-error" id={id('name-error')} data-error-for="name"></p>
+        </div>
+        <div class="field">
+          <label for={id('organisation')}>Business or organisation <span class="optional">(optional)</span></label>
+          <input class="input" id={id('organisation')} name="organisation" type="text" autocomplete="organization" maxlength={LIMITS.organisation.max} />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for={id('email')}>Email address</label>
+          <input class="input" id={id('email')} name="email" type="email" autocomplete="email" required maxlength={LIMITS.email.max} aria-describedby={id('email-error')} />
+          <p class="field-error" id={id('email-error')} data-error-for="email"></p>
+        </div>
+        <div class="field">
+          <label for={id('phone')}>Phone or WhatsApp number <span class="optional">(optional)</span></label>
+          <input class="input" id={id('phone')} name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength={LIMITS.phone.max} placeholder="+234 …" aria-describedby={`${id('phone-hint')} ${id('phone-error')}`} />
+          <p class="hint" id={id('phone-hint')}>Include the country code if you are outside Nigeria.</p>
+          <p class="field-error" id={id('phone-error')} data-error-for="phone"></p>
+        </div>
+      </div>
+      {isQuote && (
+        <div class="field field--narrow">
+          <label for={id('country')}>Country</label>
+          <input class="input" id={id('country')} name="country" type="text" autocomplete="country-name" value="Nigeria" maxlength={LIMITS.country.max} aria-describedby={id('country-error')} />
+          <p class="field-error" id={id('country-error')} data-error-for="country"></p>
+        </div>
+      )}
+
+      <fieldset class="choice-group" aria-describedby={id('contactMethod-error')}>
+        <legend class="field-legend">How should we contact you?</legend>
+        <div class="choices">
+          {CONTACT_METHOD_OPTIONS.map((o, i) => (
+            <label class="choice">
+              <input type="radio" name="contactMethod" value={o.value} checked={i === 0} />
+              <span>{o.label}</span>
+            </label>
+          ))}
+        </div>
+        <p class="field-error" id={id('contactMethod-error')} data-error-for="contactMethod"></p>
+      </fieldset>
+    </fieldset>
+
+    <div class="form-section form-section--last">
+      <div class="field check">
+        <input type="checkbox" id={id('consent')} name="consent" required aria-describedby={id('consent-error')} />
+        <label for={id('consent')}>
+          I agree that {site.name} may use these details to respond to my enquiry, as described in the <a href="/privacy/">privacy policy</a>.
+        </label>
+      </div>
+      <p class="field-error" id={id('consent-error')} data-error-for="consent"></p>
+
+      {site.turnstileSiteKey && (
+        <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-theme="light" data-size="flexible" data-action={variant}></div>
+      )}
+
+      <div class="submit-row">
+        <button class="btn btn--primary" type="submit" data-submit>
+          <span data-submit-label>{isQuote ? 'Send quote request' : 'Send message'}</span>
+        </button>
+        <p class="fine">We use your details only to reply. We never share them for marketing.</p>
+      </div>
+      <p class="visually-hidden" role="status" aria-live="polite" data-live></p>
+    </div>
+
+    <noscript>
+      <div class="notice">
+        <p>This form needs JavaScript. You can also email <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> or call {site.contact.phoneDisplay}.</p>
+      </div>
+    </noscript>
+  </form>
+
+  <div class="notice notice--danger" data-failure hidden tabindex="-1" role="alert">
+    <p><strong data-failure-title>Your message was not sent.</strong></p>
+    <p data-failure-message></p>
+    <p class="alt-contact">
+      <a href={`mailto:${site.contact.email}`}><Icon name="mail" size={18} /> {site.contact.email}</a>
+      <a href={`tel:${site.contact.phone}`}><Icon name="call" size={18} /> {site.contact.phoneDisplay}</a>
+      {wa && <a href={wa} target="_blank" rel="noopener"><Icon name="chat" size={18} /> WhatsApp<span class="visually-hidden"> (opens WhatsApp)</span></a>}
+    </p>
+  </div>
+
+  <div class="success panel" data-success hidden tabindex="-1">
+    <span class="success__icon"><Icon name="check" size={28} /></span>
+    <h2 class="success__title" data-success-title>Message sent</h2>
+    <p data-success-ref>Your reference number is <strong data-ref></strong>. Please quote it if you contact us about this enquiry.</p>
+    <p>We will reply using the contact method you chose. If your enquiry is urgent, you can also reach us on {site.contact.phoneDisplay}.</p>
+    <div class="btn-row">
+      <a class="btn btn--secondary" href="/">Back to the homepage</a>
+      <a class="btn btn--secondary" href="/portfolio/">See our work</a>
+    </div>
+  </div>
+</div>
+
+{site.turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<script>
+  import { validateEnquiry, type FieldErrors } from '@/lib/enquiry';
+  import { track } from '@/lib/track';
+
+  declare global {
+    interface Window {
+      turnstile?: { reset: (el?: Element | string) => void };
+    }
+  }
+
+  const FIELD_LABELS: Record<string, string> = {
+    service: 'Service',
+    message: 'Description',
+    outcome: 'Desired result',
+    name: 'Full name',
+    email: 'Email address',
+    phone: 'Phone number',
+    country: 'Country',
+    contactMethod: 'Contact method',
+    consent: 'Agreement',
+    budget: 'Budget',
+    timeline: 'Timeline',
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-enquiry]').forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>('[data-form]')!;
+    const formType = form.querySelector<HTMLInputElement>('[data-form-type]')!;
+    const baseType = formType.value;
+    const service = form.querySelector<HTMLSelectElement>('[data-service]')!;
+    const course = form.querySelector<HTMLSelectElement>('[data-course]');
+    const demo = form.querySelector<HTMLInputElement>('[data-demo]');
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const defaultLabel = submitLabel.textContent ?? 'Send';
+    const live = form.querySelector<HTMLElement>('[data-live]')!;
+    const summary = root.querySelector<HTMLElement>('[data-error-summary]')!;
+    const summaryList = root.querySelector<HTMLElement>('[data-error-list]')!;
+    const failure = root.querySelector<HTMLElement>('[data-failure]')!;
+    const success = root.querySelector<HTMLElement>('[data-success]')!;
+    let started = false;
+    let sending = false;
+
+    form.querySelector<HTMLInputElement>('[data-started-at]')!.value = String(Date.now());
+
+    // Prefill from links such as /quote/?service=training&course=python-programming&intent=demo
+    const params = new URLSearchParams(location.search);
+    const presetService = params.get('service');
+    if (presetService && [...service.options].some((o) => o.value === presetService)) service.value = presetService;
+    const presetCourse = params.get('course');
+    if (course && presetCourse) {
+      const opt = [...course.options].find((o) => o.dataset.slug === presetCourse);
+      if (opt) course.value = opt.value;
+    }
+    if (demo && params.get('intent') === 'demo') demo.checked = true;
+
+    function syncConditional() {
+      form.querySelectorAll<HTMLElement>('[data-show-when]').forEach((el) => {
+        el.hidden = el.dataset.showWhen !== service.value;
+      });
+      if (service.value === 'training') formType.value = 'training';
+      else if (service.value === 'business-suite' && demo?.checked) formType.value = 'demo';
+      else formType.value = baseType;
+      if (service.value !== 'training' && course) course.value = '';
+    }
+    service.addEventListener('change', syncConditional);
+    demo?.addEventListener('change', syncConditional);
+    syncConditional();
+
+    form.addEventListener('input', () => {
+      if (!started) {
+        started = true;
+        track('contact_form_started', baseType);
+      }
+    }, { passive: true });
+
+    function readValues(): Record<string, unknown> {
+      const values: Record<string, unknown> = Object.fromEntries(new FormData(form).entries());
+      values.consent = form.querySelector<HTMLInputElement>('[name="consent"]')!.checked;
+      return values;
+    }
+
+    function fieldFor(name: string): HTMLElement | null {
+      if (name === 'contactMethod') return form.querySelector('[name="contactMethod"]:checked') ?? form.querySelector('[name="contactMethod"]');
+      return form.querySelector(`[name="${name}"]`);
+    }
+
+    function clearErrors() {
+      form.querySelectorAll('[data-error-for]').forEach((el) => (el.textContent = ''));
+      form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+      summary.hidden = true;
+      summaryList.innerHTML = '';
+    }
+
+    function showErrors(errors: FieldErrors) {
+      clearErrors();
+      const entries = Object.entries(errors) as [string, string][];
+      for (const [name, msg] of entries) {
+        const slot = form.querySelector(`[data-error-for="${name}"]`);
+        if (slot) slot.textContent = msg;
+        fieldFor(name)?.setAttribute('aria-invalid', 'true');
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        const target = fieldFor(name);
+        a.href = target?.id ? `#${target.id}` : '#';
+        a.textContent = `${FIELD_LABELS[name] ?? name}: ${msg}`;
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          target?.focus();
+        });
+        li.append(a);
+        summaryList.append(li);
+      }
+      if (entries.length) {
+        summary.hidden = false;
+        summary.focus();
+      }
+    }
+
+    // Re-check a field when the visitor leaves it, once they have tried to submit
+    let attempted = false;
+    form.addEventListener('focusout', (e) => {
+      if (!attempted) return;
+      const name = (e.target as HTMLInputElement).name;
+      if (!name) return;
+      const result = validateEnquiry(readValues());
+      const msg = result.ok ? '' : (result.errors as Record<string, string>)[name] ?? '';
+      const slot = form.querySelector(`[data-error-for="${name}"]`);
+      if (slot) slot.textContent = msg;
+      const field = fieldFor(name);
+      if (msg) field?.setAttribute('aria-invalid', 'true');
+      else field?.removeAttribute('aria-invalid');
+    });
+
+    function setSending(on: boolean) {
+      sending = on;
+      submit.disabled = on;
+      submit.setAttribute('aria-disabled', String(on));
+      submitLabel.textContent = on ? 'Sending…' : defaultLabel;
+      live.textContent = on ? 'Sending your message.' : '';
+    }
+
+    function showFailure(title: string, message: string) {
+      root.querySelector('[data-failure-title]')!.textContent = title;
+      root.querySelector('[data-failure-message]')!.textContent = message;
+      failure.hidden = false;
+      failure.focus();
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (sending) return;
+      attempted = true;
+      failure.hidden = true;
+
+      const values = readValues();
+      const check = validateEnquiry(values);
+      if (!check.ok) {
+        showErrors(check.errors);
+        return;
+      }
+      clearErrors();
+      setSending(true);
+
+      let res: Response;
+      try {
+        res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', accept: 'application/json' },
+          body: JSON.stringify(values),
+        });
+      } catch {
+        setSending(false);
+        showFailure('Your message was not sent.', 'We could not reach our server. Check your internet connection and try again, or contact us directly:');
+        return;
+      }
+
+      let body: { ok?: boolean; reference?: string | null; message?: string; errors?: FieldErrors; code?: string } = {};
+      try {
+        body = await res.json();
+      } catch {
+        /* non-JSON response, handled below */
+      }
+      setSending(false);
+
+      if (res.ok && body.ok) {
+        const ref = body.reference ?? '';
+        const refEl = root.querySelector<HTMLElement>('[data-ref]')!;
+        refEl.textContent = ref;
+        root.querySelector<HTMLElement>('[data-success-ref]')!.hidden = !ref;
+        const type = formType.value;
+        root.querySelector('[data-success-title]')!.textContent =
+          type === 'quote' ? 'Quote request sent' : type === 'demo' ? 'Demo request sent' : type === 'training' ? 'Training enquiry sent' : 'Message sent';
+        form.hidden = true;
+        summary.hidden = true;
+        success.hidden = false;
+        success.focus();
+        track('contact_form_submitted', service.value);
+        if (type === 'quote') track('quote_requested', service.value);
+        if (type === 'demo') track('demo_requested', service.value);
+        if (type === 'training') track('training_enquiry_submitted', service.value);
+        return;
+      }
+
+      window.turnstile?.reset();
+      if (res.status === 422 && body.errors) {
+        showErrors(body.errors);
+        return;
+      }
+      showFailure(
+        'Your message was not sent.',
+        (body.message ?? 'Something went wrong while sending your message.') + ' Your details are still in the form. You can also contact us directly:',
+      );
+    });
+  });
+</script>
+
+<style>
+  .enquiry {
+    display: grid;
+    gap: var(--s-5);
+  }
+  .enquiry-form {
+    display: grid;
+    gap: var(--s-6);
+  }
+  .form-section {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s-5);
+    min-width: 0;
+  }
+  .form-section__title {
+    font-size: var(--step-1);
+    font-weight: 720;
+    color: var(--navy);
+    padding: 0 0 var(--s-3);
+    margin-bottom: var(--s-2);
+    width: 100%;
+    border-bottom: 1px solid var(--line);
+  }
+  .field-row {
+    display: grid;
+    gap: var(--s-5);
+  }
+  @media (min-width: 40rem) {
+    .field-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .field--narrow {
+      max-width: calc(50% - var(--s-5) / 2);
+    }
+  }
+  .field-legend {
+    font-weight: 640;
+  }
+  .textarea--short {
+    min-height: 5.5rem;
+  }
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3) var(--s-5);
+    margin-top: var(--s-2);
+  }
+  .form-section--last {
+    gap: var(--s-4);
+  }
+  .error-summary ul {
+    margin: 0;
+    padding-left: 1.2em;
+  }
+  .error-summary a {
+    color: var(--danger);
+  }
+  .alt-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+  }
+  .alt-contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-weight: 600;
+    min-height: 2.75rem;
+  }
+  .success {
+    display: grid;
+    gap: var(--s-4);
+    border-color: #b9dcc5;
+  }
+  .success__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--success-tint);
+    color: var(--success);
+  }
+  .success__title {
+    font-size: var(--step-3);
+  }
+  .success:focus,
+  [data-failure]:focus,
+  .error-summary:focus {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+  }
+  .cf-turnstile {
+    min-height: 65px;
+  }
+</style>

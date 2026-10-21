@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { faqSchema } from '@/lib/schema';
+
+const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.order);
+const groupOrder = ['Working with us', 'Software and websites', 'Ilelah Business Suite', 'Schools and CBT', 'Training', 'Support and maintenance'];
+const groups = groupOrder.filter((g) => faqs.some((f) => f.data.group === g));
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+---
+<PageLayout
+  title="Frequently asked questions"
+  description="Answers to common questions about working with Ilelah Technologies: pricing, timelines, Business Suite, CBT for schools, training and support."
+  heading="Frequently asked questions"
+  intro="Straight answers to the questions we are asked most. If yours is not here, ask us directly."
+  crumbs={[{ label: 'FAQs', href: '/faq/' }]}
+  jsonLd={[faqSchema(faqs.map((f) => f.data))]}
+  cta={{ heading: 'Still have a question?', body: 'Send it to us and we will reply using whichever contact method you prefer.', primaryLabel: 'Contact us', primaryHref: '/contact/' }}
+>
+  <section class="section">
+    <div class="container faq-layout">
+      <nav class="faq-nav" aria-label="FAQ topics">
+        <ul role="list">
+          {groups.map((g) => <li><a href={`#${slug(g)}`}>{g}</a></li>)}
+        </ul>
+      </nav>
+      <div class="faq-groups">
+        {groups.map((g) => (
+          <section class="faq-group" id={slug(g)} aria-labelledby={`${slug(g)}-h`}>
+            <h2 id={`${slug(g)}-h`}>{g}</h2>
+            <div class="faq-list">
+              {faqs.filter((f) => f.data.group === g).map((f) => (
+                <details id={f.id}>
+                  <summary>{f.data.question}</summary>
+                  <p>{f.data.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .faq-layout {
+    display: grid;
+    gap: var(--s-7);
+  }
+  @media (min-width: 64rem) {
+    .faq-layout {
+      grid-template-columns: 15rem minmax(0, 1fr);
+      gap: var(--s-8);
+      align-items: start;
+    }
+    .faq-nav {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+    }
+  }
+  .faq-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  @media (min-width: 64rem) {
+    .faq-nav ul {
+      flex-direction: column;
+      border-left: 2px solid var(--line);
+    }
+    .faq-nav a {
+      padding-left: var(--s-4);
+    }
+  }
+  .faq-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .faq-nav a:hover {
+    text-decoration: underline;
+  }
+  .faq-groups {
+    display: grid;
+    gap: var(--s-8);
+    max-width: 50rem;
+  }
+  .faq-group h2 {
+    font-size: var(--step-3);
+    margin-bottom: var(--s-4);
+  }
+</style>

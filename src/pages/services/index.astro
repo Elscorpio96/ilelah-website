@@ -1,0 +1,79 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import DivisionList from '@/components/DivisionList.astro';
+---
+<PageLayout
+  title="Services"
+  description="Software development, Ilelah Business Suite, EduTech and CBT, websites, mobile apps, ICT support, design and digital skills training."
+  heading="Our services"
+  intro="Ilelah Technologies is one business with eight areas of work. Choose the one closest to your need, or describe the problem and we will suggest where to start."
+  crumbs={[{ label: 'Services', href: '/services/' }]}
+>
+  <div slot="header" class="btn-row">
+    <a class="btn btn--primary" href="/quote/">Request a quote</a>
+    <a class="btn btn--secondary" href="/contact/">Contact us</a>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <DivisionList headingLevel="h2" />
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container split">
+      <div class="stack">
+        <h2>Not sure which service you need?</h2>
+      </div>
+      <div class="stack">
+        <p class="lede">
+          Many problems cross more than one area. A school moving exams onto computers may need software, network work,
+          lab maintenance and staff training. A growing shop may need an app, a website and a logo.
+        </p>
+        <p>
+          Describe what you are trying to achieve and we will recommend a sensible order of work, including what can
+          wait. You decide what goes ahead.
+        </p>
+        <div class="btn-row"><a class="btn btn--primary" href="/quote/">Describe your project</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>What you can expect from us</h2>
+      </div>
+      <ul class="expect" role="list">
+        <li><h3>A written scope before any work</h3><p>You know what is included, what is not and what it will cost before you commit.</p></li>
+        <li><h3>Plain language</h3><p>We explain technical choices in terms of what they mean for your work and your budget.</p></li>
+        <li><h3>Honest advice</h3><p>If a cheaper option, an existing tool or no change at all is the better answer, we will say so.</p></li>
+        <li><h3>Proper handover</h3><p>You receive the access details, files and guidance you need to own and run what we deliver.</p></li>
+      </ul>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .expect {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .expect {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .expect li {
+    display: grid;
+    gap: var(--s-2);
+    padding-left: var(--s-5);
+    border-left: 2px solid var(--gold);
+  }
+  .expect h3 {
+    font-size: var(--step-1);
+  }
+  .expect p {
+    color: var(--ink-soft);
+  }
+</style>

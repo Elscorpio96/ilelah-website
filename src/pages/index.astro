@@ -1,0 +1,418 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HeroSchematic from '@/components/HeroSchematic.astro';
+import DivisionList from '@/components/DivisionList.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import Icon from '@/components/Icon.astro';
+import { site, formatNaira, whatsappLink } from '@/config/site';
+import { organizationSchema, websiteSchema } from '@/lib/schema';
+import { statusLabel } from '@/lib/portfolio';
+
+const projects = (await getCollection('portfolio', (p) => site.showDrafts || p.data.approved))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+const pricing = site.businessSuitePricing;
+const wa = whatsappLink();
+
+const audiences = [
+  'Small and medium-sized businesses',
+  'Shops and retailers',
+  'Schools and colleges',
+  'Organisations and nonprofits',
+  'Entrepreneurs with a new idea',
+  'Clients outside Nigeria, for remote work',
+];
+
+---
+<BaseLayout
+  title={site.name}
+  description={site.description}
+  jsonLd={[organizationSchema(Astro.site!), websiteSchema(Astro.site!)]}
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="hero__tagline">{site.tagline}</p>
+        <h1>Software, school systems and ICT support that fit how you actually work</h1>
+        <p class="lede">
+          We build business software, CBT and school systems, websites and mobile apps, and provide ICT support, design
+          and digital skills training. Based in Bauchi, working across Nigeria and remotely with clients abroad.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/quote/">Request a quote</a>
+          <a class="btn btn--secondary" href="/services/">Explore our solutions</a>
+        </div>
+        <p class="hero__contact">
+          Prefer to talk first? <a href={`tel:${site.contact.phone}`} data-track="phone_click">{site.contact.phoneDisplay}</a>
+          {wa && <> or <a href={wa} target="_blank" rel="noopener" data-track="whatsapp_click">WhatsApp<span class="visually-hidden"> (opens WhatsApp)</span></a></>}
+        </p>
+      </div>
+      <div class="hero__visual">
+        <HeroSchematic />
+      </div>
+    </div>
+  </section>
+
+  <!-- Who we serve -->
+  <section class="section section--tight serve">
+    <div class="container serve__inner">
+      <h2 class="serve__title">Who we work with</h2>
+      <ul class="serve__list" role="list">
+        {audiences.map((a) => <li>{a}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Divisions -->
+  <section class="section section--mist" aria-labelledby="what-we-do">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="what-we-do">What we do</h2>
+        <p>Eight areas of work under one roof, so the same team can build your system, set up the computers it runs on and train the people who use it.</p>
+      </div>
+      <DivisionList />
+    </div>
+  </section>
+
+  <!-- Business Suite -->
+  <section class="section" aria-labelledby="bs-heading">
+    <div class="container split split--even">
+      <div class="stack-l">
+        <div class="stack">
+          <p class="kicker"><Icon name="stock" size={20} /> Our product</p>
+          <h2 id="bs-heading">Ilelah Business Suite</h2>
+          <p class="lede">
+            A business management app for shops and small businesses. It keeps track of what you sell, what is left in
+            stock and what everything should cost, on an Android phone or tablet.
+          </p>
+        </div>
+        {pricing.showPricing && (
+          <dl class="price-pair">
+            <div><dt>Offline version</dt><dd>{formatNaira(pricing.offline)}</dd></div>
+            <div><dt>Online version</dt><dd>{formatNaira(pricing.online)}</dd></div>
+          </dl>
+        )}
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/quote/?service=business-suite&intent=demo">Request a demo</a>
+          <a class="btn btn--secondary" href="/products/business-suite/">See the product</a>
+        </div>
+      </div>
+      <ul class="focus-list" role="list">
+        <li><span><Icon name="receipt" /></span><div><h3>Sales tracking</h3><p>Record each sale as it happens and see your totals without adding up a notebook.</p></div></li>
+        <li><span><Icon name="stock" /></span><div><h3>Stock management</h3><p>Know what is on the shelf and what needs reordering before it runs out.</p></div></li>
+        <li><span><Icon name="shield" /></span><div><h3>Pricing control</h3><p>Keep one set of prices so every customer is charged correctly.</p></div></li>
+        <li><span><Icon name="offline" /></span><div><h3>Made for real conditions</h3><p>Designed for shops where the internet connection cannot be relied on.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- EduTech -->
+  <section class="section section--navy" aria-labelledby="edu-heading">
+    <div class="container split">
+      <div class="stack">
+        <h2 id="edu-heading">Technology for schools, from people who have run school ICT</h2>
+        <p>
+          Our founder's background includes school ICT administration, so we understand exam timetables, crowded computer
+          laboratories and results that must be right the first time.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--gold" href="/edutech/">EduTech and CBT solutions</a>
+        </div>
+      </div>
+      <ul class="edu-list" role="list">
+        <li><h3>Computer-based testing</h3><p>CBT that can run on your school's own network, so exams are not at the mercy of the internet.</p></li>
+        <li><h3>Results and assessment</h3><p>Scores calculated and compiled automatically, with fewer transcription errors.</p></li>
+        <li><h3>School management systems</h3><p>Student records, registration and administration in one organised system.</p></li>
+        <li><h3>ICT laboratory support</h3><p>Computers and networks set up and maintained so the lab is ready when classes are.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Approach -->
+  <section class="section" aria-labelledby="approach-heading">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="approach-heading">How we work</h2>
+        <p>The same four steps whether we are building software, setting up a network or designing a logo.</p>
+      </div>
+      <ol class="steps" role="list">
+        <li><h3>Listen</h3><p>We start with your problem and how the work is done today, not with a product to sell you.</p></li>
+        <li><h3>Scope in writing</h3><p>You receive a clear written scope and quote. Work starts only when you agree to it.</p></li>
+        <li><h3>Build and check with you</h3><p>You see progress as it happens and test the result with real tasks before it goes live.</p></li>
+        <li><h3>Support what we deliver</h3><p>We hand over properly, explain how to use and maintain the result, and remain available as agreed.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Work -->
+  {projects.length > 0 && (
+    <section class="section section--mist" aria-labelledby="work-heading">
+      <div class="container">
+        <div class="section-head section-head--row">
+          <h2 id="work-heading">Selected work</h2>
+          <a class="link-strong" href="/portfolio/">View the portfolio</a>
+        </div>
+        <ul class="work-list" role="list">
+          {projects.map((p) => (
+            <li class:list={['work', { 'draft-flag': !p.data.approved }]}>
+              <p class="work__meta"><span class="badge">{p.data.category}</span><span class="badge">{statusLabel[p.data.status]}</span>{!p.data.approved && <span class="badge badge--draft">Draft: hidden on live site</span>}</p>
+              <h3><a href={`/portfolio/${p.id}/`} data-track="portfolio_project_opened" data-track-label={p.id}>{p.data.title}</a></h3>
+              <p>{p.data.summary}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(2.5rem, 1.5rem + 5vw, 6rem) clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero__grid {
+    display: grid;
+    gap: var(--s-7);
+    align-items: center;
+  }
+  @media (min-width: 64rem) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+      gap: var(--s-8);
+    }
+  }
+  .hero__copy {
+    display: grid;
+    gap: var(--s-5);
+  }
+  .hero__copy h1 {
+    font-size: clamp(2.125rem, 1.4rem + 3vw, 3.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    max-width: 19ch;
+  }
+  .hero__tagline {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    font-weight: 640;
+    color: var(--gold-ink);
+  }
+  .hero__tagline::before {
+    content: '';
+    width: 0.6rem;
+    height: 0.6rem;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+  .hero__contact {
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+  }
+  .hero__visual {
+    display: none;
+  }
+  @media (min-width: 48rem) {
+    .hero__visual {
+      display: block;
+      max-width: 36rem;
+      width: 100%;
+      justify-self: center;
+    }
+  }
+
+  .serve__inner {
+    display: grid;
+    gap: var(--s-4);
+  }
+  @media (min-width: 64rem) {
+    .serve__inner {
+      grid-template-columns: 14rem 1fr;
+      align-items: baseline;
+    }
+  }
+  .serve__title {
+    font-size: var(--step-1);
+  }
+  .serve__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+    color: var(--ink-soft);
+  }
+  .serve__list li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .serve__list li::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-weight: 640;
+    color: var(--gold-ink);
+  }
+  .price-pair {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+  .price-pair > div {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    padding: var(--s-3) var(--s-5);
+    min-width: 11rem;
+  }
+  .price-pair dt {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .price-pair dd {
+    font-size: var(--step-3);
+    font-weight: 760;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+  .focus-list {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .focus-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+    padding-block: var(--s-5);
+    border-bottom: 1px solid var(--line);
+  }
+  .focus-list li > span {
+    color: var(--navy);
+    padding-top: 0.15rem;
+  }
+  .focus-list h3 {
+    font-size: var(--step-1);
+  }
+  .focus-list p {
+    color: var(--ink-soft);
+  }
+
+  .edu-list {
+    display: grid;
+    gap: var(--s-5) var(--s-6);
+  }
+  @media (min-width: 40rem) {
+    .edu-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .edu-list li {
+    border-top: 2px solid var(--gold);
+    padding-top: var(--s-4);
+    display: grid;
+    gap: var(--s-2);
+  }
+  .edu-list h3 {
+    font-size: var(--step-1);
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--s-6);
+    counter-reset: step;
+  }
+  @media (min-width: 48rem) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 68rem) {
+    .steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--line-strong);
+  }
+  .steps li::before {
+    content: counter(step);
+    font-size: var(--step-3);
+    font-weight: 760;
+    color: var(--gold-ink);
+    line-height: 1;
+    margin-bottom: var(--s-2);
+  }
+  .steps h3 {
+    font-size: var(--step-1);
+  }
+  .steps p {
+    color: var(--ink-soft);
+  }
+
+  .section-head--row {
+    max-width: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s-3);
+  }
+  .work-list {
+    display: grid;
+    gap: var(--s-5);
+  }
+  @media (min-width: 48rem) {
+    .work-list {
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    }
+  }
+  .work {
+    position: relative;
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    padding: var(--s-6);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-l);
+  }
+  .work h3 a {
+    text-decoration: none;
+  }
+  .work h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .work:hover {
+    border-color: var(--navy);
+  }
+  .work:hover h3 a {
+    text-decoration: underline;
+  }
+  .work p {
+    color: var(--ink-soft);
+  }
+  .work__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+</style>

@@ -1,0 +1,20 @@
+---
+/**
+ * A note for the site owner about content that needs review before launch.
+ * Rendered ONLY in development (npm run dev). It never appears on the live site.
+ * The same items are listed in docs/PRIVACY_REVIEW.md and docs/LAUNCH_CHECKLIST.md.
+ */
+import { site } from '@/config/site';
+---
+{site.showDrafts && (
+  <aside class="notice notice--danger review-note" aria-label="Review note (development only)">
+    <p><strong>Review before launch (visible in development only):</strong> <slot /></p>
+  </aside>
+)}
+
+<style>
+  .review-note {
+    font-size: var(--step--1);
+    margin-block: var(--s-3);
+  }
+</style>

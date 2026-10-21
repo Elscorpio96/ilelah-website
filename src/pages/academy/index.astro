@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { site, formatNaira } from '@/config/site';
+
+const courses = (await getCollection('courses', (c) => site.showDrafts || !c.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const anyOpen = courses.some((c) => c.data.status === 'open');
+---
+<PageLayout
+  title="Digital Academy"
+  description="Practical digital skills courses from Ilelah Technologies: computer basics, web design, programming, Python, WordPress, AI and cybersecurity."
+  heading="Ilelah Digital Academy"
+  intro="Practical technology training for individuals, schools and organisations, from first steps with a computer to programming, artificial intelligence and cybersecurity."
+  crumbs={[{ label: 'Academy', href: '/academy/' }]}
+  cta={{
+    heading: 'Training for your school or team',
+    body: 'We can adapt any course for a group of staff or students. Tell us who the training is for and what they need to be able to do afterwards.',
+    primaryLabel: 'Enquire about group training',
+    primaryHref: '/quote/?service=training',
+    topic: 'training',
+  }}
+>
+  {!anyOpen && (
+    <section class="section section--tight">
+      <div class="container">
+        <div class="notice notice--info status-note">
+          <p><strong>Courses are open for registration of interest.</strong></p>
+          <p>Dates, format and fees for each course will be published when it opens for enrolment. Register your interest on any course and we will contact you when the details are confirmed.</p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section" aria-labelledby="catalogue">
+    <div class="container">
+      <h2 id="catalogue" class="catalogue-title">Course catalogue</h2>
+      <ul class="courses" role="list">
+        {courses.map((c) => (
+          <li class:list={['course', { 'draft-flag': c.data.draft }]}>
+            <div class="course__top">
+              {c.data.status === 'open' ? <span class="badge badge--available">Enrolling now</span> : <span class="badge">Register interest</span>}
+              {c.data.status === 'open' && c.data.feeNgn != null && <span class="badge">{formatNaira(c.data.feeNgn)}</span>}
+            </div>
+            <h3><a href={`/academy/${c.id}/`}>{c.data.title}</a></h3>
+            <p>{c.data.summary}</p>
+            <p class="course__for"><strong>For:</strong> {c.data.audience[0]}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container split">
+      <h2>How we teach</h2>
+      <ul class="node-list">
+        <li><strong>Hands-on.</strong> Learners spend most of each session doing, not watching.</li>
+        <li><strong>Real tasks.</strong> Exercises are based on the work people actually do in offices, shops and schools.</li>
+        <li><strong>Plain language.</strong> Technical ideas are explained clearly, at the pace of the group.</li>
+        <li><strong>Honest about outcomes.</strong> Our courses build practical skills. They are not accredited qualifications, and we do not present them as such.</li>
+      </ul>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .status-note {
+    max-width: 52rem;
+  }
+  .catalogue-title {
+    margin-bottom: var(--s-6);
+  }
+  .courses {
+    display: grid;
+    gap: var(--s-5);
+  }
+  @media (min-width: 48rem) {
+    .courses {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 68rem) {
+    .courses {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .course {
+    position: relative;
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-l);
+  }
+  .course:hover {
+    border-color: var(--navy);
+  }
+  .course__top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .course h3 {
+    font-size: var(--step-1);
+  }
+  .course h3 a {
+    text-decoration: none;
+  }
+  .course h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .course:hover h3 a {
+    text-decoration: underline;
+  }
+  .course p {
+    color: var(--ink-soft);
+  }
+  .course__for {
+    font-size: var(--step--1);
+  }
+</style>

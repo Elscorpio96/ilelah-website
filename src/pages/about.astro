@@ -1,0 +1,168 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { site } from '@/config/site';
+import { organizationSchema } from '@/lib/schema';
+
+const values = [
+  { name: 'Practical first', text: 'We recommend technology that solves the problem in front of you and that you can afford to run, not the most impressive option.' },
+  { name: 'Honest by default', text: 'We say what we can and cannot do, quote in writing and tell you when the answer is "you do not need this".' },
+  { name: 'Built to last', text: 'We document our work, hand over properly and design systems that someone else could maintain.' },
+  { name: 'Accessible technology', text: 'Good software and digital skills should be within reach of small businesses and schools, not only large organisations.' },
+  { name: 'Always improving', text: 'We review what we deliver, learn from each project and keep our own products improving release by release.' },
+];
+---
+<PageLayout
+  title="About us"
+  description="About Ilelah Technologies: a Bauchi-based technology business providing software, school systems, ICT support, design and digital skills training."
+  heading="About Ilelah Technologies"
+  intro="We are a technology business based in Bauchi, Nigeria. We build software, support the systems organisations depend on and help people gain the skills to use technology well."
+  crumbs={[{ label: 'About', href: '/about/' }]}
+  jsonLd={[organizationSchema(Astro.site!)]}
+>
+  <section class="section">
+    <div class="container split">
+      <h2>Who we are</h2>
+      <div class="prose">
+        <p class="lede">Ilelah Technologies brings software development, education technology, ICT support, design and training together under one name.</p>
+        <p>
+          We work with businesses, schools and organisations that need technology to work reliably in real
+          conditions: limited budgets, busy staff, shared computers and internet connections that cannot always be trusted.
+          We design for those conditions from the start.
+        </p>
+        <p>
+          We work closely with each client, explain choices in plain language and put scope, prices and responsibilities
+          in writing. We would rather deliver a smaller system that is used every day than a large one that is never finished.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container mv">
+      <div class="mv__item">
+        <h2>Our mission</h2>
+        <p>To help businesses, schools and organisations work better through practical, dependable technology and the skills to use it.</p>
+      </div>
+      <div class="mv__item">
+        <h2>Our vision</h2>
+        <p>To be a trusted technology partner for organisations in Nigeria and beyond, known for products and services that genuinely make work easier.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>What we value</h2>
+      </div>
+      <ul class="values" role="list">
+        {values.map((v) => <li><h3>{v.name}</h3><p>{v.text}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--mist" aria-labelledby="founder">
+    <div class="container split">
+      <div class="stack">
+        <h2 id="founder">Our founder</h2>
+        <p class="founder-name">{site.founder.name}<br /><span>{site.founder.role}</span></p>
+      </div>
+      <div class="prose">
+        <p>
+          {site.founder.name} founded Ilelah Technologies to bring together the different kinds of technology work that
+          businesses and schools need, under one dependable name.
+        </p>
+        <p>
+          His background is in Computer and Communications Engineering. His working experience spans ICT support, school
+          ICT administration, software development, web design, digital skills training and educational technology.
+        </p>
+        <p>
+          That mix shapes how the business works. Experience running school ICT informs our education technology. Hands-on
+          support work keeps our software practical. Experience training people means we explain technology in terms they can use.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <h2>Our products and our services</h2>
+      <div class="prose">
+        <p>
+          Ilelah Technologies is the business behind everything on this site. <a href="/products/business-suite/">Ilelah Business Suite</a>
+          is our own software product, which we develop, sell and support. Our service areas, such as EduTech, ICT support
+          and the Digital Academy, are names for the kinds of work we do. They are part of the same business rather than
+          separate companies.
+        </p>
+        <p>
+          Building our own product makes us better at client work: we live with the same questions about reliability,
+          updates and support that our clients do.
+        </p>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .mv {
+    display: grid;
+    gap: var(--s-7);
+  }
+  @media (min-width: 48rem) {
+    .mv {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .mv__item {
+    display: grid;
+    gap: var(--s-3);
+    padding-left: var(--s-5);
+    border-left: 3px solid var(--gold);
+  }
+  .mv__item h2 {
+    font-size: var(--step-3);
+  }
+  .mv__item p {
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .values {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .values {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 68rem) {
+    .values {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .values li {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    padding-top: var(--s-4);
+    border-top: 2px solid var(--navy);
+  }
+  .values h3 {
+    font-size: var(--step-1);
+  }
+  .values p {
+    color: var(--ink-soft);
+  }
+  .founder-name {
+    font-size: var(--step-2);
+    font-weight: 720;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+  .founder-name span {
+    font-size: var(--step-0);
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+</style>

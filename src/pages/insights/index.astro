@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { site } from '@/config/site';
+
+const posts = (await getCollection('insights', (p) => site.showDrafts || !p.data.draft)).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+);
+const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Africa/Lagos' });
+---
+<PageLayout
+  title="Insights"
+  description="Practical guides from Ilelah Technologies on business software, school technology and CBT, websites, ICT and digital skills."
+  heading="Insights"
+  intro="Practical guides for business owners, school leaders and anyone making decisions about technology."
+  crumbs={[{ label: 'Insights', href: '/insights/' }]}
+>
+  <section class="section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <p class="lede">New articles are being written. In the meantime, <a href="/faq/">our FAQs</a> answer common questions.</p>
+      ) : (
+        <ul class="posts" role="list">
+          {posts.map((p) => (
+            <li class:list={['post', { 'draft-flag': p.data.draft }]}>
+              <p class="post__meta">
+                <span class="badge">{p.data.category}</span>
+                <time datetime={p.data.published.toISOString().slice(0, 10)}>{fmt.format(p.data.published)}</time>
+                {p.data.draft && <span class="badge badge--draft">Draft</span>}
+              </p>
+              <h2><a href={`/insights/${p.id}/`}>{p.data.title}</a></h2>
+              <p>{p.data.summary}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .posts {
+    display: grid;
+    max-width: 50rem;
+    border-top: 1px solid var(--line);
+  }
+  .post {
+    position: relative;
+    display: grid;
+    gap: var(--s-3);
+    padding-block: var(--s-6);
+    border-bottom: 1px solid var(--line);
+  }
+  .post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-3);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+  }
+  .post h2 {
+    font-size: var(--step-3);
+  }
+  .post h2 a {
+    text-decoration: none;
+  }
+  .post h2 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .post:hover h2 a {
+    text-decoration: underline;
+  }
+  .post > p:last-child {
+    color: var(--ink-soft);
+  }
+</style>

@@ -1,0 +1,339 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { site, formatNaira, whatsappLink } from '@/config/site';
+import { softwareSchema, faqSchema } from '@/lib/schema';
+
+const all = await getCollection('businessSuiteFeatures');
+// Live site: only confirmed (available) and roadmap (planned) items. Dev: everything, unverified items flagged.
+const features = all
+  .filter((f) => site.showDrafts || f.data.status !== 'unverified')
+  .sort((a, b) => a.data.order - b.data.order);
+const groups = [...new Set(features.map((f) => f.data.group))];
+const hasVerified = features.some((f) => f.data.status !== 'unverified');
+
+const faqs = (await getCollection('faqs', (f) => f.data.group === 'Ilelah Business Suite')).sort((a, b) => a.data.order - b.data.order);
+const pricing = site.businessSuitePricing;
+const demoHref = '/quote/?service=business-suite&intent=demo';
+const wa = whatsappLink('Ilelah Business Suite');
+const description =
+  'Ilelah Business Suite is a business management app for shops: sales tracking, stock management and pricing on an Android device. Request a demonstration.';
+---
+<PageLayout
+  title="Ilelah Business Suite"
+  description={description}
+  intro="A business management app for shops and small businesses. Record sales, keep track of stock and keep prices under control, on an Android phone or tablet."
+  crumbs={[{ label: 'Products', href: '/products/' }, { label: 'Ilelah Business Suite', href: '/products/business-suite/' }]}
+  jsonLd={[
+    softwareSchema(Astro.site!, { name: 'Ilelah Business Suite', description, path: '/products/business-suite/', os: 'Android' }),
+    ...(faqs.length ? [faqSchema(faqs.map((f) => f.data))] : []),
+  ]}
+  cta={{
+    heading: 'See Ilelah Business Suite working',
+    body: 'Book a demonstration and bring your questions about your own shop. We will show you how the app handles sales, stock and prices, and which version suits you.',
+    primaryLabel: 'Request a demo',
+    primaryHref: demoHref,
+    topic: 'Ilelah Business Suite',
+  }}
+>
+  <div slot="header" class="btn-row">
+    <a class="btn btn--primary" href={demoHref}>Request a demo</a>
+    {wa && <a class="btn btn--secondary" href={wa} target="_blank" rel="noopener" data-track="whatsapp_click"><Icon name="chat" /> Ask on WhatsApp<span class="visually-hidden"> (opens WhatsApp)</span></a>}
+  </div>
+
+  <section class="section">
+    <div class="container split">
+      <div class="stack">
+        <h2>Built for the shop counter</h2>
+        <p class="muted">Ilelah Business Suite is developed and supported by Ilelah Technologies.</p>
+      </div>
+      <div class="stack-l">
+        <ul class="pillars" role="list">
+          <li><span><Icon name="receipt" /></span><div><h3>Sales tracking</h3><p>Every sale is recorded as it happens, so daily totals are there when you need them instead of being added up from a notebook at closing time.</p></div></li>
+          <li><span><Icon name="stock" /></span><div><h3>Inventory and stock management</h3><p>Stock levels follow your sales, so you can see what is running low before customers find empty shelves.</p></div></li>
+          <li><span><Icon name="shield" /></span><div><h3>Pricing</h3><p>One list of products and prices means every customer is charged the right amount, whoever is serving.</p></div></li>
+          <li><span><Icon name="chart" /></span><div><h3>Records in one place</h3><p>Sales, stock and prices live together in the app instead of being spread across notebooks and memory.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <div class="section-head">
+        <h2>Who it is for</h2>
+      </div>
+      <ul class="who" role="list">
+        <li><h3>Shops and small retailers</h3><p>Provision stores, supermarkets, boutiques, phone and accessory shops, and similar businesses selling from a counter.</p></li>
+        <li><h3>Businesses with sales staff</h3><p>Owners who need to see what each salesperson sold, even when they are not in the shop.</p></li>
+        <li><h3>Owners moving off paper</h3><p>Businesses ready to replace notebooks and memory with records they can rely on.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="features-heading">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="features-heading">Features</h2>
+        {hasVerified && <p>Features marked "Planned" are on our development roadmap and are not in the current release.</p>}
+      </div>
+
+      {!hasVerified && (
+        <div class="notice notice--info features-pending">
+          <p><strong>The detailed feature list is being confirmed against the current release.</strong></p>
+          <p>We only list features we have checked in the version you would receive. To see exactly what the app does today, <a href={demoHref}>request a demonstration</a>.</p>
+        </div>
+      )}
+
+      {features.length > 0 && (
+        <div class="feature-groups">
+          {groups.map((g) => (
+            <div class="feature-group">
+              <h3>{g}</h3>
+              <ul role="list">
+                {features.filter((f) => f.data.group === g).map((f) => (
+                  <li class:list={{ 'draft-flag': f.data.status === 'unverified' }}>
+                    <span class="f-icon"><Icon name={f.data.icon} size={20} /></span>
+                    <div>
+                      <p class="f-name">
+                        {f.data.name}
+                        {f.data.status === 'planned' && <span class="badge badge--planned">Planned</span>}
+                        {f.data.status === 'unverified' && <span class="badge badge--draft">Unverified: hidden on live site</span>}
+                      </p>
+                      <p class="f-text">{f.data.text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  {pricing.showPricing && (
+    <section class="section section--mist" aria-labelledby="pricing-heading">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="pricing-heading">Versions and prices</h2>
+          <p>Choose the version that matches how your business works. We confirm the price and exactly what is included in writing before you pay.</p>
+        </div>
+        <div class="plans">
+          <article class="plan">
+            <span class="plan__icon"><Icon name="offline" size={26} /></span>
+            <h3>Offline version</h3>
+            <p class="plan__price">{formatNaira(pricing.offline)}</p>
+            <p>Runs on your Android device without needing an internet connection.</p>
+            <a class="btn btn--secondary" href={`${demoHref}`}>Ask about the offline version</a>
+          </article>
+          <article class="plan">
+            <span class="plan__icon"><Icon name="cloud" size={26} /></span>
+            <h3>Online version</h3>
+            <p class="plan__price">{formatNaira(pricing.online)}</p>
+            <p>Adds a cloud connection. Ask us what the online features include in the current release.</p>
+            <a class="btn btn--secondary" href={`${demoHref}`}>Ask about the online version</a>
+          </article>
+        </div>
+        <p class="fine plans-note">
+          Prices are in Nigerian naira. They are indicative and are confirmed in your written quote, including the number of
+          devices covered, setup and support. The website does not take payments.
+        </p>
+      </div>
+    </section>
+  )}
+
+  <section class="section" aria-labelledby="getting-heading">
+    <div class="container split">
+      <div class="stack">
+        <h2 id="getting-heading">How to get started</h2>
+        <p class="muted">Ilelah Business Suite is supplied directly by Ilelah Technologies. It is not available as a public download.</p>
+      </div>
+      <ol class="get-steps" role="list">
+        <li><h3>Request a demonstration</h3><p>We show you the app and answer questions about your own business.</p></li>
+        <li><h3>Confirm your version</h3><p>We agree the version, the price and what is included, in writing.</p></li>
+        <li><h3>Set up together</h3><p>We help you install the app and set up your products and prices so you can start selling.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  {faqs.length > 0 && (
+    <section class="section section--mist" aria-labelledby="bs-faq">
+      <div class="container split">
+        <h2 id="bs-faq">Questions about the app</h2>
+        <div class="faq-list">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.data.question}</summary>
+              <p>{f.data.answer}</p>
+            </details>
+          ))}
+          <p><a href="/faq/">See all frequently asked questions</a></p>
+        </div>
+      </div>
+    </section>
+  )}
+</PageLayout>
+
+<style>
+  .pillars {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  .pillars li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+    padding-block: var(--s-5);
+    border-bottom: 1px solid var(--line);
+  }
+  .pillars li > span {
+    color: var(--navy);
+    padding-top: 0.15rem;
+  }
+  .pillars h3 {
+    font-size: var(--step-1);
+    margin-bottom: var(--s-1);
+  }
+  .pillars p {
+    color: var(--ink-soft);
+  }
+  .who {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .who {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .who li {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    border-top: 2px solid var(--navy);
+    padding-top: var(--s-4);
+  }
+  .who h3 {
+    font-size: var(--step-1);
+  }
+  .who p {
+    color: var(--ink-soft);
+  }
+  .features-pending {
+    max-width: 48rem;
+    margin-bottom: var(--s-7);
+  }
+  .feature-groups {
+    display: grid;
+    gap: var(--s-7) var(--s-7);
+  }
+  @media (min-width: 48rem) {
+    .feature-groups {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .feature-group h3 {
+    font-size: var(--step-1);
+    padding-bottom: var(--s-3);
+    border-bottom: 2px solid var(--navy);
+    margin-bottom: var(--s-2);
+  }
+  .feature-group ul {
+    display: grid;
+  }
+  .feature-group li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-3);
+    padding-block: var(--s-3);
+    border-bottom: 1px solid var(--line);
+  }
+  .f-icon {
+    color: var(--navy);
+    padding-top: 0.2rem;
+  }
+  .f-name {
+    font-weight: 640;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .f-text {
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+  }
+  .plans {
+    display: grid;
+    gap: var(--s-5);
+    max-width: 52rem;
+  }
+  @media (min-width: 40rem) {
+    .plans {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .plan {
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    padding: var(--s-6);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--gold);
+    border-radius: var(--radius-l);
+  }
+  .plan__icon {
+    color: var(--navy);
+  }
+  .plan h3 {
+    font-size: var(--step-2);
+  }
+  .plan__price {
+    font-size: var(--step-4);
+    font-weight: 760;
+    color: var(--navy);
+    letter-spacing: -0.025em;
+    line-height: 1;
+  }
+  .plan p:not(.plan__price) {
+    color: var(--ink-soft);
+  }
+  .plan .btn {
+    margin-top: var(--s-3);
+    justify-self: start;
+    white-space: normal;
+  }
+  .plans-note {
+    margin-top: var(--s-5);
+    max-width: 52rem;
+  }
+  .get-steps {
+    display: grid;
+    counter-reset: s;
+    border-top: 1px solid var(--line);
+  }
+  .get-steps li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    padding-block: var(--s-4);
+    border-bottom: 1px solid var(--line);
+  }
+  .get-steps li::before {
+    content: counter(s);
+    grid-row: span 2;
+    font-size: var(--step-2);
+    font-weight: 760;
+    color: var(--gold-ink);
+    line-height: 1.1;
+  }
+  .get-steps h3 {
+    font-size: var(--step-1);
+  }
+  .get-steps p {
+    color: var(--ink-soft);
+  }
+</style>

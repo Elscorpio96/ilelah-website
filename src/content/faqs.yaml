@@ -1,0 +1,111 @@
+# Frequently asked questions shown on /faq/.
+# Each entry needs a unique id, a group (see src/content.config.ts), a question, an answer and an order.
+# Keep answers honest: no promises about prices, timelines or support hours that have not been agreed.
+
+- id: how-do-we-start
+  group: Working with us
+  order: 1
+  question: How do we start working together?
+  answer: Send a message through the quote form, the contact form or WhatsApp describing what you need. We will reply with questions to understand the problem, then suggest an approach. Once the scope is clear, you receive a written quote. Work begins only after you accept it.
+
+- id: how-much-does-it-cost
+  group: Working with us
+  order: 2
+  question: How much does a project cost?
+  answer: It depends on what needs to be built or done. We do not quote fixed prices before understanding the requirements, because an early figure would only be a guess. If you have a budget in mind, tell us; it helps us suggest an approach that fits it.
+
+- id: how-long
+  group: Working with us
+  order: 3
+  question: How long will my project take?
+  answer: A timeline is included in every written quote, based on the agreed scope. Small jobs such as a logo or a simple website usually take much less time than custom software, but we confirm dates only after scoping.
+
+- id: outside-nigeria
+  group: Working with us
+  order: 4
+  question: Do you work with clients outside Nigeria?
+  answer: Yes, for work that can be delivered remotely, such as software, websites, mobile apps, design and online training. Services that need someone on site, such as hardware and network installation, are offered in and around Bauchi, and further afield only by arrangement.
+
+- id: payment-terms
+  group: Working with us
+  order: 5
+  question: How are payments handled?
+  answer: Payment terms are set out in each quote. The website does not take payments. We will never ask you to pay through a link sent by someone you do not recognise; if in doubt, contact us directly using the details on this site.
+
+- id: own-the-code
+  group: Software and websites
+  order: 1
+  question: Will I own my website or software?
+  answer: Ownership of domains, content, designs and source code is agreed in writing before work starts. For websites, we set up domains and hosting in your name or transfer them to you at handover.
+
+- id: update-myself
+  group: Software and websites
+  order: 2
+  question: Can I update my website myself?
+  answer: Yes, if you want to. We can build on a platform you can edit through a dashboard, such as WordPress, and show you how. If you prefer, we can handle updates for you under a maintenance arrangement.
+
+- id: existing-system
+  group: Software and websites
+  order: 3
+  question: Can you improve a system someone else built?
+  answer: Often, yes. We first review the existing system to understand its condition and any risks, then tell you honestly whether improving it or replacing it makes more sense.
+
+- id: bs-what-is-it
+  group: Ilelah Business Suite
+  order: 1
+  question: What is Ilelah Business Suite?
+  answer: It is our business management app for shops and small businesses, focused on recording sales, managing stock and keeping prices under control. It runs on Android devices. The product page lists its current features.
+
+- id: bs-offline-online
+  group: Ilelah Business Suite
+  order: 2
+  question: What is the difference between the offline and online versions?
+  answer: The offline version works on the device without an internet connection. The online version adds a cloud connection. Ask us for a demonstration to see what each version includes in the current release before you decide.
+
+- id: bs-demo
+  group: Ilelah Business Suite
+  order: 3
+  question: Can I see the app before buying?
+  answer: Yes. Request a demonstration through the product page or on WhatsApp and we will arrange one.
+
+- id: cbt-internet
+  group: Schools and CBT
+  order: 1
+  question: Does a CBT system need internet access?
+  answer: Not necessarily. The CBT systems we build can run entirely on a school's own local network, so exams are not affected by internet outages. We assess your computers and network before recommending a setup.
+
+- id: cbt-scope
+  group: Schools and CBT
+  order: 2
+  question: What do you need from our school to plan a CBT or school system?
+  answer: The number of students and computers, the classes and subjects involved, your current exam or records process, and any deadlines. The EduTech page lists everything that helps us scope a project.
+
+- id: training-certificates
+  group: Training
+  order: 1
+  question: Do your courses come with a certificate?
+  answer: Our courses are practical skills training. They are not accredited qualifications, and we do not present them as such. Any certificate of attendance offered for a course will be stated clearly in the course details when enrolment opens.
+
+- id: training-when
+  group: Training
+  order: 2
+  question: When do courses start?
+  answer: Course dates, formats and fees are published when each course opens for enrolment. Until then, register your interest on the course page and we will contact you when details are confirmed.
+
+- id: training-groups
+  group: Training
+  order: 3
+  question: Can you train our staff or students as a group?
+  answer: Yes. We can discuss training for schools and organisations, with content adapted to your group. Use the training enquiry form to tell us about the group and what you need.
+
+- id: support-hours
+  group: Support and maintenance
+  order: 1
+  question: What support do you offer after a project ends?
+  answer: Support and maintenance are agreed for each project, including how to reach us and how quickly we respond. We do not promise round-the-clock support unless it has been specifically agreed in writing.
+
+- id: support-onsite
+  group: Support and maintenance
+  order: 2
+  question: Can you come to our office or school?
+  answer: On-site work is available in and around Bauchi. Visits further away can be discussed and are quoted separately.

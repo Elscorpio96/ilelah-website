@@ -1,0 +1,99 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { site, formatNaira } from '@/config/site';
+
+export async function getStaticPaths() {
+  const courses = await getCollection('courses', (c) => site.showDrafts || !c.data.draft);
+  return courses.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'courses'>;
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const open = d.status === 'open';
+const enquiryHref = `/quote/?service=training&course=${entry.id}`;
+const tbc = 'To be confirmed';
+---
+<PageLayout
+  title={d.title}
+  description={d.description}
+  intro={d.summary}
+  crumbs={[{ label: 'Academy', href: '/academy/' }, { label: d.title, href: `/academy/${entry.id}/` }]}
+  cta={{
+    heading: open ? `Enrol on ${d.title}` : `Interested in ${d.title}?`,
+    body: open
+      ? 'Send us your details and we will confirm your place and how to pay.'
+      : 'Register your interest and we will contact you when dates, format and fees are confirmed. Registering does not commit you to anything.',
+    primaryLabel: open ? 'Enquire about enrolment' : 'Register interest',
+    primaryHref: enquiryHref,
+    topic: `the ${d.title} course`,
+  }}
+>
+  <div slot="header" class="btn-row">
+    <a class="btn btn--primary" href={enquiryHref}>{open ? 'Enquire about enrolment' : 'Register interest'}</a>
+    <a class="btn btn--secondary" href="/academy/">All courses</a>
+  </div>
+
+  <section class="section">
+    <div class="container split split--reverse">
+      <div class="stack-l">
+        <div class="prose">
+          <Content />
+        </div>
+        <div class="stack">
+          <h2 class="h-sub">What you will be able to do</h2>
+          <ul class="node-list">{d.outcomes.map((o) => <li>{o}</li>)}</ul>
+        </div>
+        <div class="stack">
+          <h2 class="h-sub">What the course covers</h2>
+          <ul class="node-list">{d.topics.map((t) => <li>{t}</li>)}</ul>
+        </div>
+        <div class="stack">
+          <h2 class="h-sub">Who it is for</h2>
+          <ul class="node-list">{d.audience.map((a) => <li>{a}</li>)}</ul>
+        </div>
+      </div>
+
+      <aside class="panel details" aria-labelledby="details-heading">
+        <h2 id="details-heading" class="h-sub">Course details</h2>
+        <dl class="facts">
+          <div><dt>Status</dt><dd>{open ? 'Enrolling now' : 'Registering interest'}</dd></div>
+          <div><dt>Duration</dt><dd>{d.duration ?? tbc}</dd></div>
+          <div><dt>Format</dt><dd>{d.delivery ?? tbc}</dd></div>
+          <div><dt>Fee</dt><dd>{d.feeNgn != null ? formatNaira(d.feeNgn) : tbc}</dd></div>
+          <div><dt>Before you start</dt><dd>{d.prerequisites}</dd></div>
+        </dl>
+        <a class="btn btn--primary details__btn" href={enquiryHref}>{open ? 'Enquire about enrolment' : 'Register interest'}</a>
+        <p class="fine">This is practical skills training. It is not an accredited qualification.</p>
+      </aside>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .h-sub {
+    font-size: var(--step-2);
+  }
+  .details {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+  }
+  @media (min-width: 64rem) {
+    .details {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+    }
+  }
+  .details .facts > div {
+    grid-template-columns: 1fr;
+    gap: var(--s-1);
+  }
+  .details__btn {
+    width: 100%;
+  }
+</style>

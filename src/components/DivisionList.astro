@@ -1,0 +1,90 @@
+---
+import { divisions } from '@/config/divisions';
+import Icon from './Icon.astro';
+
+interface Props {
+  headingLevel?: 'h2' | 'h3';
+}
+const { headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<ul class="divisions" role="list">
+  {divisions.map((d) => (
+    <li class="division">
+      <span class="division__icon"><Icon name={d.icon} size={26} /></span>
+      <div class="division__body">
+        <H class="division__name"><a href={d.href}>{d.name}</a></H>
+        <p>{d.summary}</p>
+      </div>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .divisions {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 48rem) {
+    .divisions {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-7);
+    }
+  }
+  .division {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+    padding: var(--s-5) 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .division__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-m);
+    background: var(--navy-tint);
+    color: var(--navy);
+  }
+  .division__body {
+    display: grid;
+    gap: var(--s-1);
+  }
+  .division__name {
+    font-size: var(--step-1);
+  }
+  .division__name a {
+    text-decoration: none;
+    color: var(--navy);
+  }
+  /* Whole row is clickable; the link text stays the accessible name */
+  .division__name a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .division:hover .division__name a {
+    text-decoration: underline;
+  }
+  .division:hover .division__icon {
+    background: var(--navy);
+    color: var(--gold);
+  }
+  .division__icon {
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .division p {
+    color: var(--ink-soft);
+  }
+  @supports selector(:has(a)) {
+    .division:has(a:focus-visible) {
+      outline: 3px solid var(--gold);
+      outline-offset: 2px;
+    }
+    .division a:focus-visible {
+      outline: none;
+    }
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import { site } from '@/config/site';
+import { statusLabel } from '@/lib/portfolio';
+
+const projects = (await getCollection('portfolio', (p) => site.showDrafts || p.data.approved)).sort((a, b) => a.data.order - b.data.order);
+const categories = [...new Set(projects.map((p) => p.data.category))];
+---
+<PageLayout
+  title="Portfolio"
+  description="Projects and products by Ilelah Technologies: business software, education technology, websites, apps and design work."
+  heading="Our work"
+  intro="Products we have built and projects we can show publicly. Each entry says what kind of project it is, so you know whether you are looking at a product, live client work or a prototype."
+  crumbs={[{ label: 'Portfolio', href: '/portfolio/' }]}
+>
+  <section class="section">
+    <div class="container">
+      {categories.length > 1 && (
+        <p class="cats"><span class="muted">Categories:</span> {categories.map((c) => <span class="badge">{c}</span>)}</p>
+      )}
+      <ul class="projects" role="list">
+        {projects.map((p) => (
+          <li class:list={['project', { 'draft-flag': !p.data.approved }]}>
+            <div class="project__meta">
+              <span class="badge">{p.data.category}</span>
+              <span class="badge">{statusLabel[p.data.status]}</span>
+              {!p.data.approved && <span class="badge badge--draft">Draft: hidden on live site</span>}
+            </div>
+            <h2><a href={`/portfolio/${p.id}/`} data-track="portfolio_project_opened" data-track-label={p.id}>{p.data.title}</a></h2>
+            <p>{p.data.summary}</p>
+          </li>
+        ))}
+      </ul>
+
+      <div class="more">
+        <h2>More work is on the way</h2>
+        <p>
+          We publish client projects only with the client's permission, and we never show confidential code or data. More
+          case studies will be added as they are approved. If you would like to see examples relevant to your project,
+          <a href="/contact/">ask us</a> and we will share what we can.
+        </p>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .cats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2);
+    margin-bottom: var(--s-6);
+  }
+  .projects {
+    display: grid;
+    gap: var(--s-5);
+  }
+  @media (min-width: 48rem) {
+    .projects {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .project {
+    position: relative;
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+    padding: var(--s-6);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--navy);
+    border-radius: var(--radius-l);
+  }
+  .project:hover {
+    border-color: var(--navy);
+  }
+  .project__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .project h2 {
+    font-size: var(--step-2);
+  }
+  .project h2 a {
+    text-decoration: none;
+  }
+  .project h2 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .project:hover h2 a {
+    text-decoration: underline;
+  }
+  .project p {
+    color: var(--ink-soft);
+  }
+  .more {
+    margin-top: var(--s-8);
+    max-width: 44rem;
+    display: grid;
+    gap: var(--s-3);
+  }
+  .more h2 {
+    font-size: var(--step-2);
+  }
+  .more p {
+    color: var(--ink-soft);
+  }
+</style>
