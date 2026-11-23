@@ -40,6 +40,16 @@ export const site = {
     role: 'Founder and CEO',
   },
 
+  /**
+   * Planned Islamic academy sub-brand. The name is not decided yet:
+   * leave `name` null to show the neutral working title, then set it
+   * (for example 'Ilelah International Islamic Academy') once chosen.
+   */
+  islamicAcademy: {
+    name: null as string | null,
+    workingTitle: 'Islamic Academy',
+  },
+
   location: {
     /** Public wording only. Do not add a street address without approval. */
     display: 'Based in Bauchi, Nigeria',

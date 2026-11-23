@@ -11,7 +11,8 @@
     "test:e2e": "playwright test",
     "test:all": "npm run build && npm test && npm run test:e2e",
     "brand": "python3 scripts/brand/build_brand.py",
-    "pages:dev": "wrangler pages dev dist --port 8788 --compatibility-date=2026-10-01"
+    "pages:dev": "wrangler pages dev dist --port 8788 --compatibility-date=2026-10-01",
+    "profile": "node scripts/profile/build_profile.mjs"
   },
   "license": "UNLICENSED",
   "dependencies": {

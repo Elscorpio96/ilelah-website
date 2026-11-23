@@ -54,17 +54,23 @@
   group: Ilelah Business Suite
   order: 1
   question: What is Ilelah Business Suite?
-  answer: It is our business management app for shops and small businesses, focused on recording sales, managing stock and keeping prices under control. It runs on Android devices. The product page lists its current features.
+  answer: It is our business management app for shops and small businesses, focused on recording sales, managing stock and keeping prices under control. It runs on Android phones and tablets and on Windows PCs. The product page lists its current features.
 
 - id: bs-offline-online
   group: Ilelah Business Suite
   order: 2
   question: What is the difference between the offline and online versions?
-  answer: The offline version works on the device without an internet connection. The online version adds a cloud connection. Ask us for a demonstration to see what each version includes in the current release before you decide.
+  answer: The offline version keeps all records on the device and needs no internet connection. The online version adds a cloud connection, so several devices and branches share the same records, and an owner dashboard you can open from any browser. Both are a one-time payment for a lifetime licence, with one activation per device.
+
+- id: bs-printer
+  group: Ilelah Business Suite
+  order: 3
+  question: Does it print receipts?
+  answer: Yes. On Android it prints to most 58 mm and 80 mm Bluetooth thermal receipt printers, and it can also share a receipt as an image or PDF, for example on WhatsApp. Ask us before buying a printer so we can confirm it is compatible.
 
 - id: bs-demo
   group: Ilelah Business Suite
-  order: 3
+  order: 4
   question: Can I see the app before buying?
   answer: Yes. Request a demonstration through the product page or on WhatsApp and we will arrange one.
 

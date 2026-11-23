@@ -11,6 +11,7 @@ import { z } from 'astro/zod';
 const iconNames = z.enum([
   'code', 'globe', 'mobile', 'support', 'pen', 'school', 'academy', 'stock', 'chat', 'mail', 'call', 'check', 'pin',
   'clock', 'shield', 'receipt', 'chart', 'users', 'offline', 'cloud', 'exam', 'network', 'printer',
+  'health', 'cart', 'camera', 'spark', 'briefcase', 'handshake', 'building', 'crescent', 'download',
 ]);
 
 /** Services under /services/<slug>/ */

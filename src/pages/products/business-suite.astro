@@ -18,15 +18,15 @@ const pricing = site.businessSuitePricing;
 const demoHref = '/quote/?service=business-suite&intent=demo';
 const wa = whatsappLink('Ilelah Business Suite');
 const description =
-  'Ilelah Business Suite is a business management app for shops: sales tracking, stock management and pricing on an Android device. Request a demonstration.';
+  'Ilelah Business Suite is a business management app for shops: sales tracking, stock management and pricing on Android and Windows. Request a demonstration.';
 ---
 <PageLayout
   title="Ilelah Business Suite"
   description={description}
-  intro="A business management app for shops and small businesses. Record sales, keep track of stock and keep prices under control, on an Android phone or tablet."
+  intro="A business management app for shops and small businesses. Record sales, keep track of stock and keep prices under control, on an Android phone or tablet, or a Windows PC."
   crumbs={[{ label: 'Products', href: '/products/' }, { label: 'Ilelah Business Suite', href: '/products/business-suite/' }]}
   jsonLd={[
-    softwareSchema(Astro.site!, { name: 'Ilelah Business Suite', description, path: '/products/business-suite/', os: 'Android' }),
+    softwareSchema(Astro.site!, { name: 'Ilelah Business Suite', description, path: '/products/business-suite/', os: 'Android, Windows' }),
     ...(faqs.length ? [faqSchema(faqs.map((f) => f.data))] : []),
   ]}
   cta={{
@@ -125,20 +125,22 @@ const description =
             <span class="plan__icon"><Icon name="offline" size={26} /></span>
             <h3>Offline version</h3>
             <p class="plan__price">{formatNaira(pricing.offline)}</p>
-            <p>Runs on your Android device without needing an internet connection.</p>
+            <p class="plan__term">One-time payment, lifetime licence</p>
+            <p>Runs on your Android device or Windows PC without needing an internet connection. All records stay on the device.</p>
             <a class="btn btn--secondary" href={`${demoHref}`}>Ask about the offline version</a>
           </article>
           <article class="plan">
             <span class="plan__icon"><Icon name="cloud" size={26} /></span>
             <h3>Online version</h3>
             <p class="plan__price">{formatNaira(pricing.online)}</p>
-            <p>Adds a cloud connection. Ask us what the online features include in the current release.</p>
+            <p class="plan__term">One-time payment, lifetime licence</p>
+            <p>Everything in the offline version, plus a cloud connection so several devices and branches share records, and an owner dashboard you can open from any browser.</p>
             <a class="btn btn--secondary" href={`${demoHref}`}>Ask about the online version</a>
           </article>
         </div>
         <p class="fine plans-note">
           Prices are in Nigerian naira. They are indicative and are confirmed in your written quote, including the number of
-          devices covered, setup and support. The website does not take payments.
+          devices covered, setup and support. Each licence activates one device. The website does not take payments.
         </p>
       </div>
     </section>
@@ -290,6 +292,11 @@ const description =
   }
   .plan h3 {
     font-size: var(--step-2);
+  }
+  .plan__term {
+    margin: -0.25rem 0 0;
+    font-weight: 600;
+    color: var(--gold-ink);
   }
   .plan__price {
     font-size: var(--step-4);

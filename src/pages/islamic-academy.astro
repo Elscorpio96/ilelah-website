@@ -1,0 +1,98 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { site, whatsappLink } from '@/config/site';
+
+const ia = site.islamicAcademy;
+const name = ia.name ?? ia.workingTitle;
+const interestHref = '/contact/?service=islamic-academy';
+const wa = whatsappLink(`the ${name}`);
+const pillars = [
+  { title: 'Faith', text: 'Qur\'an, Islamic studies and Arabic taught with care, as the foundation of the learner\'s character.' },
+  { title: 'Knowledge', text: 'Strong modern education alongside Islamic learning, so learners are prepared for further study and work.' },
+  { title: 'Character', text: 'Good conduct, discipline and service to the community as part of everyday learning.' },
+  { title: 'Digital skills', text: 'Practical technology skills from an early stage, drawing on the experience of Ilelah Technologies.' },
+];
+---
+<PageLayout
+  title={`${name}: coming soon`}
+  description={`${name} is a planned Islamic education initiative from Ilelah Technologies, combining Islamic and modern learning. Register your interest.`}
+  heading={name}
+  intro="A planned Islamic education initiative that brings faith, modern knowledge, good character and digital skills together. We are not enrolling yet."
+  crumbs={[{ label: 'Academy', href: '/academy/' }, { label: name, href: '/islamic-academy/' }]}
+  cta={false}
+>
+  <div slot="header" class="stack">
+    <p><span class="badge badge--planned">Coming soon</span></p>
+    <div class="btn-row">
+      <a class="btn btn--primary" href={interestHref}>Register your interest</a>
+      {wa && <a class="btn btn--secondary" href={wa} target="_blank" rel="noopener">Ask on WhatsApp</a>}
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container split">
+      <h2>What we are planning</h2>
+      <div class="stack">
+        <p class="lede">We are preparing an academy where learners grow in faith and in knowledge at the same time, with technology used to support good teaching.</p>
+        <p>The programmes, levels, location, start date and fees have not been finalised. When they are, they will be published on this page first. Nothing is being sold or enrolled through this page.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <div class="section-head">
+        <h2>Our guiding principles</h2>
+      </div>
+      <ul class="pillars" role="list">
+        {pillars.map((p) => (
+          <li><span class="pillars__icon"><Icon name="crescent" size={22} /></span><h3>{p.title}</h3><p>{p.text}</p></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <h2>Be the first to hear</h2>
+      <div class="stack">
+        <p>Parents, guardians, teachers and supporters can register their interest now. Choose "Islamic Academy: register interest" on the contact form and tell us what you would like to see, such as age group, weekend or full-time classes, or online learning.</p>
+        <p class="muted">Registering interest does not reserve a place or commit you to anything. We will only use your details to tell you about the academy.</p>
+        <div class="btn-row"><a class="btn btn--primary" href={interestHref}>Register your interest</a></div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .pillars {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .pillars {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .pillars li {
+    display: grid;
+    align-content: start;
+    gap: var(--s-2);
+  }
+  .pillars__icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    background: var(--navy);
+    color: var(--gold);
+  }
+  .pillars h3 {
+    font-size: var(--step-1);
+  }
+  .pillars p {
+    color: var(--ink-soft);
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Icon from '@/components/Icon.astro';
+import type { IconName } from '@/lib/icons';
+
+const partnerHref = '/contact/?service=partnership';
+const types: { name: string; icon: IconName; text: string }[] = [
+  { name: 'Resellers and agents', icon: 'stock', text: 'Introduce Ilelah Business Suite and our services to shops and businesses in your area.' },
+  { name: 'Schools and training centres', icon: 'academy', text: 'Host Digital Academy courses for your students, staff or community.' },
+  { name: 'Developers, designers and agencies', icon: 'code', text: 'Work with us on projects that need extra hands or skills we do not have in-house, or bring us in on yours.' },
+  { name: 'Equipment suppliers', icon: 'printer', text: 'Supply computers, printers, network and camera equipment for the installations we carry out.' },
+  { name: 'NGOs and programmes', icon: 'users', text: 'Run digital skills, school technology or small business programmes together.' },
+];
+---
+<PageLayout
+  title="Partnerships"
+  description="Partner with Ilelah Technologies: resellers and agents, schools and training centres, developers and agencies, equipment suppliers and NGO programmes."
+  heading="Partner with us"
+  intro="We work with organisations and individuals who share our aim of making practical technology and digital skills available to more people."
+  crumbs={[{ label: 'About', href: '/about/' }, { label: 'Partnerships', href: '/partnerships/' }]}
+  cta={false}
+>
+  <div slot="header" class="btn-row">
+    <a class="btn btn--primary" href={partnerHref}>Propose a partnership</a>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Ways to work together</h2>
+      </div>
+      <ul class="ptypes" role="list">
+        {types.map((t) => (
+          <li>
+            <span class="ptypes__icon"><Icon name={t.icon} size={26} /></span>
+            <div><h3>{t.name}</h3><p>{t.text}</p></div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container split">
+      <h2>How it works</h2>
+      <div class="stack">
+        <p class="lede">Tell us who you are and what you have in mind. If it is a good fit, we will meet to discuss it and agree the arrangement in writing, including responsibilities and any commission or fees, before any work starts.</p>
+        <div class="btn-row"><a class="btn btn--primary" href={partnerHref}>Propose a partnership</a></div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .ptypes {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .ptypes {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-7);
+    }
+  }
+  .ptypes li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+  }
+  .ptypes__icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    background: var(--navy-tint);
+    color: var(--navy);
+  }
+  .ptypes h3 {
+    font-size: var(--step-1);
+    margin-bottom: var(--s-1);
+  }
+  .ptypes p {
+    color: var(--ink-soft);
+  }
+</style>

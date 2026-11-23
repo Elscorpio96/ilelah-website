@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Ilelah Technologies: Company Profile</title>
+<style>
+  @font-face { font-family: 'Schibsted'; src: url('../../node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2') format('woff2'); font-weight: 400 900; }
+  @page { size: A4; margin: 0; }
+  :root { --navy:#00143c; --navy2:#0a2554; --gold:#c8922a; --goldink:#7a5306; --ink:#12161c; --soft:#4a5363; --line:#dfe4ec; --mist:#f4f6f9; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Schibsted', Arial, sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.5; }
+  .page { width: 210mm; height: 297mm; padding: 20mm 18mm 16mm; position: relative; page-break-after: always; overflow: hidden; }
+  .page:last-child { page-break-after: auto; }
+  .foot { position: absolute; left: 18mm; right: 18mm; bottom: 10mm; display: flex; justify-content: space-between; font-size: 8pt; color: var(--soft); border-top: 1px solid var(--line); padding-top: 3mm; }
+  h1 { font-size: 30pt; line-height: 1.1; font-weight: 760; color: var(--navy); }
+  h2 { font-size: 17pt; font-weight: 740; color: var(--navy); margin-bottom: 4mm; }
+  h2::before { content: ''; display: block; width: 14mm; height: 1.2mm; background: var(--gold); margin-bottom: 3mm; }
+  h3 { font-size: 11pt; font-weight: 700; color: var(--navy); margin-bottom: 1mm; }
+  p + p { margin-top: 2.5mm; }
+  .lede { font-size: 12.5pt; color: var(--ink); }
+  .muted { color: var(--soft); }
+  section + section { margin-top: 7mm; }
+
+  /* cover */
+  .cover { background: var(--navy); color: #fff; padding: 0; }
+  .cover__top { padding: 26mm 18mm 0; }
+  .cover__logo { width: 120mm; }
+  .cover__body { position: absolute; left: 18mm; right: 18mm; top: 120mm; }
+  .cover__kicker { color: var(--gold); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; font-size: 10pt; }
+  .cover h1 { color: #fff; font-size: 40pt; margin: 4mm 0 6mm; }
+  .cover__tag { font-size: 15pt; color: #dbe3f0; }
+  .cover__bar { width: 30mm; height: 1.6mm; background: var(--gold); margin: 10mm 0; }
+  .cover__intro { font-size: 12pt; color: #dbe3f0; max-width: 140mm; }
+  .cover__contact { position: absolute; left: 18mm; right: 18mm; bottom: 18mm; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; font-size: 9.5pt; color: #dbe3f0; border-top: 1px solid rgba(255,255,255,.2); padding-top: 6mm; }
+  .cover__contact strong { display: block; color: var(--gold); font-size: 8pt; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1mm; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; }
+  .box { background: var(--mist); border-left: 1.2mm solid var(--gold); padding: 5mm 6mm; }
+  .values { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm 7mm; }
+  .values li, .svc li { list-style: none; }
+  .values p, .svc p { color: var(--soft); font-size: 9.5pt; }
+  .svc { display: grid; grid-template-columns: 1fr 1fr; gap: 4.5mm 7mm; }
+  .svc li { padding-top: 3mm; border-top: 1px solid var(--line); }
+  .num { color: var(--goldink); font-weight: 760; margin-right: 1.5mm; }
+  .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9mm; }
+  .head img { height: 11mm; }
+  .head span { font-size: 8.5pt; color: var(--soft); letter-spacing: .14em; text-transform: uppercase; }
+  .feat { columns: 2; column-gap: 7mm; font-size: 9.5pt; color: var(--soft); }
+  .feat li { margin-left: 4mm; margin-bottom: 1mm; break-inside: avoid; }
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 4mm; }
+  .plan { border: 1px solid var(--line); padding: 4mm 5mm; }
+  .plan b { display: block; font-size: 15pt; color: var(--navy); }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5mm; counter-reset: s; }
+  .steps li { list-style: none; counter-increment: s; font-size: 9.5pt; color: var(--soft); }
+  .steps li::before { content: counter(s); display: grid; place-items: center; width: 8mm; height: 8mm; border-radius: 50%; background: var(--navy); color: var(--gold); font-weight: 700; margin-bottom: 2mm; }
+  .steps b { display: block; color: var(--navy); }
+  .contact { background: var(--navy); color: #fff; padding: 7mm 8mm; display: grid; grid-template-columns: repeat(2, 1fr); gap: 4mm 8mm; }
+  .contact h2 { color: #fff; grid-column: 1 / -1; margin-bottom: 0; }
+  .contact strong { display: block; color: var(--gold); font-size: 8pt; letter-spacing: .12em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<!-- 1. Cover -->
+<div class="page cover">
+  <div class="cover__top"><img class="cover__logo" src="../../public/brand/ilelah-logo-horizontal-reverse.png" alt="Ilelah Technologies" /></div>
+  <div class="cover__body">
+    <div class="cover__kicker">Company profile</div>
+    <h1>Ilelah Technologies</h1>
+    <div class="cover__tag">Technology. Innovation. Solutions.</div>
+    <div class="cover__bar"></div>
+    <p class="cover__intro">Business software, school and CBT systems, websites, mobile apps, hospital systems, e-commerce, CCTV, AI automation, ICT support, design and digital skills training, from one dependable team in Bauchi, Nigeria.</p>
+  </div>
+  <div class="cover__contact">
+    <div><strong>Web</strong>www.ilelahtech.com</div>
+    <div><strong>Email</strong>walid@ilelahtech.com</div>
+    <div><strong>Phone and WhatsApp</strong>+234 706 679 3518</div>
+  </div>
+</div>
+
+<!-- 2. About -->
+<div class="page">
+  <div class="head"><img src="../../public/brand/ilelah-logo-horizontal.png" alt="" /><span>About us</span></div>
+  <section>
+    <h2>Who we are</h2>
+    <p class="lede">Ilelah Technologies is a technology business based in Bauchi, Nigeria. We build software, support the systems organisations depend on and help people gain the skills to use technology well.</p>
+    <p>We work with businesses, schools and organisations that need technology to work reliably in real conditions: limited budgets, busy staff, shared computers and internet connections that cannot always be trusted. We design for those conditions from the start.</p>
+    <p>We explain choices in plain language and put scope, prices and responsibilities in writing. We would rather deliver a smaller system that is used every day than a large one that is never finished.</p>
+  </section>
+  <section class="two">
+    <div class="box"><h3>Our mission</h3><p>To help businesses, schools and organisations work better through practical, dependable technology and the skills to use it.</p></div>
+    <div class="box"><h3>Our vision</h3><p>To be a trusted technology partner for organisations in Nigeria and beyond, known for products and services that genuinely make work easier.</p></div>
+  </section>
+  <section>
+    <h2>What we value</h2>
+    <ul class="values">
+      <li><h3>Practical first</h3><p>Technology that solves the problem in front of you and that you can afford to run.</p></li>
+      <li><h3>Honest by default</h3><p>We say what we can and cannot do, quote in writing and tell you when you do not need something.</p></li>
+      <li><h3>Built to last</h3><p>We document our work, hand over properly and design systems someone else could maintain.</p></li>
+      <li><h3>Accessible technology</h3><p>Good software and digital skills within reach of small businesses and schools.</p></li>
+    </ul>
+  </section>
+  <section>
+    <h2>Our founder</h2>
+    <p><b>Walid Bello Ilelah</b>, Founder and CEO. His background is in Computer and Communications Engineering, and his experience spans ICT support, school ICT administration, software development, web design, digital skills training and educational technology. That mix shapes how the business works: school ICT experience informs our education technology, hands-on support keeps our software practical, and training experience means we explain technology in terms people can use.</p>
+  </section>
+  <div class="foot"><span>Ilelah Technologies · Company profile</span><span>www.ilelahtech.com</span></div>
+</div>
+
+<!-- 3. Services -->
+<div class="page">
+  <div class="head"><img src="../../public/brand/ilelah-logo-horizontal.png" alt="" /><span>What we do</span></div>
+  <section>
+    <h2>Our areas of work</h2>
+    <p class="muted" style="margin-bottom:5mm">One business, twelve areas of work, so the same team can build your system, set up the equipment it runs on and train the people who use it.</p>
+    <ul class="svc">
+      <li><h3><span class="num">01</span>Software development</h3><p>Business applications, web systems and internal tools built around the way you work.</p></li>
+      <li><h3><span class="num">02</span>Ilelah Business Suite</h3><p>Our own app for shops and small businesses: sales, stock and pricing on Android or a Windows PC.</p></li>
+      <li><h3><span class="num">03</span>EduTech, CBT and school systems</h3><p>Computer-based testing, results and school management systems that suit your equipment.</p></li>
+      <li><h3><span class="num">04</span>Website design and development</h3><p>Fast, clear websites for businesses, schools and organisations, built for mobile.</p></li>
+      <li><h3><span class="num">05</span>Mobile app development</h3><p>Android apps for staff and customers, including apps that keep working offline.</p></li>
+      <li><h3><span class="num">06</span>ICT support and consultancy</h3><p>Computers, networks and software kept working, and honest advice before you buy.</p></li>
+      <li><h3><span class="num">07</span>Graphic design and branding</h3><p>Logos, brand identity, print and social media material that look professional.</p></li>
+      <li><h3><span class="num">08</span>Hospital and clinic systems</h3><p>Patient records, appointments, billing, pharmacy and laboratory software.</p></li>
+      <li><h3><span class="num">09</span>E-commerce and online stores</h3><p>Product catalogues, online payments and orders you manage yourself.</p></li>
+      <li><h3><span class="num">10</span>CCTV and security cameras</h3><p>Camera systems surveyed, installed and set up for viewing on your phone.</p></li>
+      <li><h3><span class="num">11</span>AI and business automation</h3><p>Practical AI assistants and automations that take repetitive work off your staff.</p></li>
+      <li><h3><span class="num">12</span>Digital Academy</h3><p>Practical courses from computer basics to web development, Python, AI and cybersecurity.</p></li>
+    </ul>
+  </section>
+  <section>
+    <h2>Who we serve</h2>
+    <p>Schools and education providers · shops, supermarkets and retailers · hospitals, clinics and pharmacies · offices and professional services · NGOs, religious and community organisations · startups and entrepreneurs.</p>
+  </section>
+  <div class="foot"><span>Ilelah Technologies · Company profile</span><span>www.ilelahtech.com</span></div>
+</div>
+
+<!-- 4. Product, process, contact -->
+<div class="page">
+  <div class="head"><img src="../../public/brand/ilelah-logo-horizontal.png" alt="" /><span>Our product</span></div>
+  <section>
+    <h2>Ilelah Business Suite</h2>
+    <p>A business management app for shops and small businesses. It records sales, keeps track of stock and keeps prices under control, on an Android phone or tablet, or a Windows PC.</p>
+    <ul class="feat" style="margin-top:4mm">
+      <li>Quick-sale tiles and barcode scanning at the counter</li>
+      <li>Hold a sale, discounts and regular-customer discounts</li>
+      <li>Customer credit with WhatsApp and SMS reminders</li>
+      <li>Refunds and returns that keep stock correct</li>
+      <li>Bulk stock upload from Excel or CSV</li>
+      <li>Below-cost selling warnings</li>
+      <li>Staff PINs, roles and owner-controlled price changes</li>
+      <li>End-of-day cash check and profit reports</li>
+      <li>Excel export by product, cashier and payment type</li>
+      <li>Bluetooth receipt printing and shareable receipts</li>
+      <li>Works offline, with backup and restore</li>
+      <li>Optional cloud connection and owner dashboard</li>
+    </ul>
+    <div class="plans">
+      <div class="plan">Offline version<b>₦50,000</b><span class="muted">One-time payment, lifetime licence</span></div>
+      <div class="plan">Online version<b>₦60,000</b><span class="muted">One-time payment, lifetime licence</span></div>
+    </div>
+    <p class="muted" style="font-size:8.5pt;margin-top:2mm">Indicative prices in Nigerian naira, per device. Final price, setup and support are confirmed in a written quote.</p>
+  </section>
+  <section>
+    <h2>How we work</h2>
+    <ol class="steps">
+      <li><b>Listen</b>We learn how you work today and what is slowing you down.</li>
+      <li><b>Scope in writing</b>You see what is included and what it costs before committing.</li>
+      <li><b>Build and test</b>We deliver in stages and test with your real data.</li>
+      <li><b>Train and hand over</b>Your team is trained and you receive access and documentation.</li>
+    </ol>
+  </section>
+  <section class="contact">
+    <h2>Let's talk</h2>
+    <div><strong>Website</strong>www.ilelahtech.com</div>
+    <div><strong>Email</strong>walid@ilelahtech.com</div>
+    <div><strong>Phone and WhatsApp</strong>+234 706 679 3518</div>
+    <div><strong>Location</strong>Based in Bauchi, Nigeria</div>
+  </section>
+  <div class="foot"><span>Ilelah Technologies · Company profile</span><span>www.ilelahtech.com</span></div>
+</div>
+</body>
+</html>

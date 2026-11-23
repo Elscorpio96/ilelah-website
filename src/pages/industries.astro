@@ -1,0 +1,183 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Icon from '@/components/Icon.astro';
+import type { IconName } from '@/lib/icons';
+
+interface Industry {
+  id: string;
+  name: string;
+  icon: IconName;
+  problem: string;
+  help: { label: string; href: string }[];
+}
+
+const industries: Industry[] = [
+  {
+    id: 'schools',
+    name: 'Schools and education',
+    icon: 'school',
+    problem: 'Exams, results, fees and records that take too long on paper, computer laboratories that need care, and staff and students who need digital skills.',
+    help: [
+      { label: 'CBT, results and school systems', href: '/edutech/' },
+      { label: 'ICT support and laboratory setup', href: '/services/ict-support/' },
+      { label: 'Digital Academy training', href: '/academy/' },
+      { label: 'School websites', href: '/services/website-design/' },
+    ],
+  },
+  {
+    id: 'retail',
+    name: 'Shops, supermarkets and retail',
+    icon: 'stock',
+    problem: 'Sales, stock and customer credit tracked in notebooks, prices that differ depending on who is serving, and no clear picture of profit.',
+    help: [
+      { label: 'Ilelah Business Suite', href: '/products/business-suite/' },
+      { label: 'Online stores', href: '/services/ecommerce/' },
+      { label: 'CCTV installation', href: '/services/cctv-installation/' },
+      { label: 'Logos and branding', href: '/services/graphic-design/' },
+    ],
+  },
+  {
+    id: 'health',
+    name: 'Hospitals, clinics and pharmacies',
+    icon: 'health',
+    problem: 'Patient folders that go missing, billing that is hard to reconcile and drug stock that runs out or expires unnoticed.',
+    help: [
+      { label: 'Hospital and clinic systems', href: '/services/hospital-systems/' },
+      { label: 'ICT support and networking', href: '/services/ict-support/' },
+      { label: 'CCTV installation', href: '/services/cctv-installation/' },
+    ],
+  },
+  {
+    id: 'offices',
+    name: 'Offices and professional services',
+    icon: 'briefcase',
+    problem: 'Repetitive admin, information copied between spreadsheets and messages, computers and networks that keep failing, and a weak online presence.',
+    help: [
+      { label: 'Custom software', href: '/services/software-development/' },
+      { label: 'AI and automation', href: '/services/ai-automation/' },
+      { label: 'ICT support', href: '/services/ict-support/' },
+      { label: 'Websites', href: '/services/website-design/' },
+    ],
+  },
+  {
+    id: 'community',
+    name: 'NGOs, religious and community organisations',
+    icon: 'users',
+    problem: 'Members, programmes and donations to keep track of on a small budget, and the need to communicate clearly with the people you serve.',
+    help: [
+      { label: 'Websites', href: '/services/website-design/' },
+      { label: 'Custom software', href: '/services/software-development/' },
+      { label: 'Design and branding', href: '/services/graphic-design/' },
+      { label: 'Digital skills training', href: '/academy/' },
+    ],
+  },
+  {
+    id: 'startups',
+    name: 'Startups and entrepreneurs',
+    icon: 'spark',
+    problem: 'An idea that needs a first working version, a brand and a way to reach customers, without spending everything before it is tested.',
+    help: [
+      { label: 'Mobile apps', href: '/services/mobile-apps/' },
+      { label: 'Custom software', href: '/services/software-development/' },
+      { label: 'Online stores', href: '/services/ecommerce/' },
+      { label: 'Design and branding', href: '/services/graphic-design/' },
+    ],
+  },
+];
+---
+<PageLayout
+  title="Industries"
+  description="How Ilelah Technologies helps schools, shops, hospitals and clinics, offices, NGOs and community organisations, and startups with practical technology."
+  heading="Industries we serve"
+  intro="Different organisations face different problems. Here is where our services fit for the kinds of organisations we work with."
+  crumbs={[{ label: 'About', href: '/about/' }, { label: 'Industries', href: '/industries/' }]}
+>
+  <section class="section">
+    <div class="container">
+      <ul class="industries" role="list">
+        {industries.map((ind) => (
+          <li class="industry" id={ind.id}>
+            <span class="industry__icon"><Icon name={ind.icon} size={28} /></span>
+            <div class="industry__body stack">
+              <h2>{ind.name}</h2>
+              <p>{ind.problem}</p>
+              <h3 class="industry__label">How we can help</h3>
+              <ul class="industry__links" role="list">
+                {ind.help.map((h) => <li><a href={h.href}>{h.label}</a></li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container split">
+      <h2>Your organisation is not listed?</h2>
+      <div class="stack">
+        <p class="lede">These are examples, not limits. Tell us what you do and what is slowing you down, and we will tell you honestly whether we can help.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="/quote/">Describe your situation</a></div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .industries {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .industries {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-7);
+    }
+  }
+  .industry {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+    padding-top: var(--s-5);
+    border-top: 2px solid var(--gold);
+  }
+  .industry__icon {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--radius-m, 0.75rem);
+    background: var(--navy);
+    color: var(--gold);
+  }
+  .industry h2 {
+    font-size: var(--step-2);
+  }
+  .industry p {
+    color: var(--ink-soft);
+  }
+  .industry__label {
+    font-size: var(--step-0);
+    margin-top: var(--s-2);
+  }
+  .industry__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .industry__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 var(--s-4);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--navy);
+    background: #fff;
+  }
+  .industry__links a:hover {
+    border-color: var(--navy);
+  }
+</style>

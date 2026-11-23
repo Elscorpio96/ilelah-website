@@ -13,7 +13,14 @@ export const SERVICE_OPTIONS = [
   { value: 'edutech', label: 'EduTech, CBT or school systems' },
   { value: 'ict', label: 'ICT support or consultancy' },
   { value: 'design', label: 'Graphic design and branding' },
+  { value: 'health', label: 'Hospital and clinic systems' },
+  { value: 'ecommerce', label: 'Online store (e-commerce)' },
+  { value: 'cctv', label: 'CCTV and security cameras' },
+  { value: 'ai', label: 'AI and automation' },
   { value: 'training', label: 'Digital Academy training' },
+  { value: 'islamic-academy', label: 'Islamic Academy: register interest' },
+  { value: 'careers', label: 'Jobs, internships and careers' },
+  { value: 'partnership', label: 'Partnerships and collaboration' },
   { value: 'other', label: 'Something else' },
 ] as const;
 

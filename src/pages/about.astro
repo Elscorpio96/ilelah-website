@@ -19,6 +19,9 @@ const values = [
   crumbs={[{ label: 'About', href: '/about/' }]}
   jsonLd={[organizationSchema(Astro.site!)]}
 >
+  <div slot="header" class="btn-row">
+    <a class="btn btn--secondary" href="/downloads/ilelah-technologies-company-profile.pdf" download>Company profile (PDF)</a>
+  </div>
   <section class="section">
     <div class="container split">
       <h2>Who we are</h2>

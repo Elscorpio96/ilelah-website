@@ -23,7 +23,7 @@ export const divisions: Division[] = [
   },
   {
     name: 'Ilelah Business Suite',
-    summary: 'Our own app for shops and small businesses: sales, stock and pricing on an Android device.',
+    summary: 'Our own app for shops and small businesses: sales, stock and pricing on Android or a Windows PC.',
     href: '/products/business-suite/',
     icon: 'stock',
     cta: 'Ilelah Business Suite',
@@ -62,6 +62,34 @@ export const divisions: Division[] = [
     href: '/services/graphic-design/',
     icon: 'pen',
     cta: 'Design and branding',
+  },
+  {
+    name: 'Hospital and Clinic Systems',
+    summary: 'Patient records, appointments, billing, pharmacy and laboratory software for health facilities.',
+    href: '/services/hospital-systems/',
+    icon: 'health',
+    cta: 'Hospital systems',
+  },
+  {
+    name: 'E-commerce and Online Stores',
+    summary: 'Online stores with product catalogues, online payments and orders you manage yourself.',
+    href: '/services/ecommerce/',
+    icon: 'cart',
+    cta: 'E-commerce',
+  },
+  {
+    name: 'CCTV and Security Cameras',
+    summary: 'Camera systems surveyed, installed and set up for viewing on your phone.',
+    href: '/services/cctv-installation/',
+    icon: 'camera',
+    cta: 'CCTV installation',
+  },
+  {
+    name: 'AI and Business Automation',
+    summary: 'Practical AI assistants and automations that take repetitive work off your staff.',
+    href: '/services/ai-automation/',
+    icon: 'spark',
+    cta: 'AI and automation',
   },
   {
     name: 'Digital Skills Training',

@@ -112,10 +112,32 @@ test('security headers are served', async ({ request }) => {
   expect(h['referrer-policy']).toBe('strict-origin-when-cross-origin');
 });
 
-test('Business Suite page hides unverified features and shows approved prices', async ({ page }) => {
+test('Business Suite page shows verified features, licence terms and approved prices', async ({ page }) => {
   await page.goto('/products/business-suite/');
-  await expect(page.getByText('The detailed feature list is being confirmed against the current release.')).toBeVisible();
+  await expect(page.getByText('The detailed feature list is being confirmed against the current release.')).toHaveCount(0);
+  await expect(page.getByText('Printed receipts', { exact: true })).toBeVisible();
+  await expect(page.getByText('Unverified: hidden on live site')).toHaveCount(0);
+  await expect(page.getByText('One-time payment, lifetime licence').first()).toBeVisible();
   await expect(page.getByText('₦50,000').first()).toBeVisible();
   await expect(page.getByText('₦60,000').first()).toBeVisible();
   await expect(page.getByText('The website does not take payments.')).toBeVisible();
+});
+
+test('new company pages and the company profile are reachable', async ({ page, request }) => {
+  for (const path of ['/industries/', '/careers/', '/partnerships/', '/islamic-academy/', '/services/hospital-systems/', '/services/ecommerce/', '/services/cctv-installation/', '/services/ai-automation/']) {
+    const res = await page.goto(path);
+    expect(res?.status(), path).toBe(200);
+  }
+  await expect(page.locator('h1')).toBeVisible();
+  const pdf = await request.get('/downloads/ilelah-technologies-company-profile.pdf');
+  expect(pdf.status()).toBe(200);
+  expect(pdf.headers()['content-type']).toContain('pdf');
+});
+
+test('Islamic Academy page is clearly marked as coming soon and presets the interest form', async ({ page }) => {
+  await page.goto('/islamic-academy/');
+  await expect(page.locator('main .badge--planned', { hasText: 'Coming soon' })).toBeVisible();
+  await page.locator('main').getByRole('link', { name: 'Register your interest' }).first().click();
+  await expect(page).toHaveURL(/service=islamic-academy/);
+  await expect(page.locator('select[name="service"]')).toHaveValue('islamic-academy');
 });

@@ -1,7 +1,7 @@
 ---
 title: Ilelah Business Suite
 category: Software
-summary: Our own business management app for shops, covering sales, stock and pricing on an Android device.
+summary: Our own business management app for shops, covering sales, stock and pricing on Android phones and Windows PCs.
 description: Ilelah Business Suite, a business management app built by Ilelah Technologies for shops that need sales, stock and pricing records.
 problem: Many small shops record sales in notebooks or from memory. Owners cannot easily see what was sold, what is left in stock, what each item should cost or how each salesperson is performing, and internet access is too unreliable to depend on.
 solution: An Android application that records sales, stock and prices on the shop's own device, designed to keep working without an internet connection. An online version adds a cloud connection for businesses that want it.

@@ -2,15 +2,14 @@
 # status: available  = confirmed in the current release (shown with no label)
 #         planned    = on the roadmap (shown with a 'Planned' label)
 #         unverified = not yet checked against the source code (HIDDEN on the live site)
-# Every item below is 'unverified' until the app source has been inspected.
-# Change each one to 'available' or 'planned' once confirmed (see docs/CONTENT_GUIDE.md).
+# All items below were checked against the app source (Elscorpio96/ilelah-business-suite) on 2026-11-23.
 
 - id: quick-sales-at-the-counter
   group: Selling
   name: "Quick sales at the counter"
   text: "Tap frequently sold items to add them to a sale in one touch."
   icon: receipt
-  status: unverified
+  status: available
   order: 1
 
 - id: full-item-list-with-typed-quantities
@@ -18,7 +17,7 @@
   name: "Full item list with typed quantities"
   text: "Search the whole item list at checkout and type exact quantities."
   icon: receipt
-  status: unverified
+  status: available
   order: 2
 
 - id: hold-a-sale
@@ -26,7 +25,7 @@
   name: "Hold a sale"
   text: "Park a customer's cart to serve someone else, then pick it up again."
   icon: clock
-  status: unverified
+  status: available
   order: 3
 
 - id: discounts
@@ -34,7 +33,7 @@
   name: "Discounts"
   text: "Apply a discount as a percentage or an amount, to a whole sale or a single line."
   icon: receipt
-  status: unverified
+  status: available
   order: 4
 
 - id: regular-customer-discounts
@@ -42,7 +41,7 @@
   name: "Regular customer discounts"
   text: "Give a regular customer a standing discount that is applied automatically at checkout."
   icon: users
-  status: unverified
+  status: available
   order: 5
 
 - id: customer-credit-and-reminders
@@ -50,7 +49,7 @@
   name: "Customer credit and reminders"
   text: "Track what customers owe and send a payment reminder by WhatsApp or SMS."
   icon: chat
-  status: unverified
+  status: available
   order: 6
 
 - id: refunds-and-returns
@@ -58,7 +57,7 @@
   name: "Refunds and returns"
   text: "Record returned goods and refunds so stock and totals stay correct."
   icon: receipt
-  status: unverified
+  status: available
   order: 7
 
 - id: products-and-prices
@@ -66,7 +65,7 @@
   name: "Products and prices"
   text: "Keep one list of products with selling prices."
   icon: stock
-  status: unverified
+  status: available
   order: 8
 
 - id: stock-levels
@@ -74,7 +73,7 @@
   name: "Stock levels"
   text: "Stock goes down automatically as items are sold."
   icon: stock
-  status: unverified
+  status: available
   order: 9
 
 - id: bulk-stock-upload
@@ -82,15 +81,15 @@
   name: "Bulk stock upload"
   text: "Add many products at once from a spreadsheet instead of one by one."
   icon: stock
-  status: unverified
+  status: available
   order: 10
 
 - id: barcode-scanning
   group: Stock and pricing
   name: "Barcode scanning"
-  text: "Scan product barcodes with the phone's camera."
+  text: "Scan product barcodes with the phone's camera, or use a USB or Bluetooth barcode scanner."
   icon: stock
-  status: unverified
+  status: available
   order: 11
 
 - id: selling-below-cost-warning
@@ -98,7 +97,7 @@
   name: "Selling-below-cost warning"
   text: "A warning appears when an item is about to be sold for less than it cost."
   icon: shield
-  status: unverified
+  status: available
   order: 12
 
 - id: salesperson-activity
@@ -106,7 +105,7 @@
   name: "Salesperson activity"
   text: "See which staff member made each sale."
   icon: users
-  status: unverified
+  status: available
   order: 13
 
 - id: owner-controlled-price-changes
@@ -114,7 +113,7 @@
   name: "Owner-controlled price changes"
   text: "Price changes are limited to the owner, with rules for correcting recent sales."
   icon: shield
-  status: unverified
+  status: available
   order: 14
 
 - id: pin-lock-and-quick-staff-switching
@@ -122,7 +121,7 @@
   name: "PIN lock and quick staff switching"
   text: "Each staff member unlocks the app with their own PIN."
   icon: shield
-  status: unverified
+  status: available
   order: 15
 
 - id: sales-totals
@@ -130,7 +129,7 @@
   name: "Sales totals"
   text: "Daily and period totals of sales."
   icon: chart
-  status: unverified
+  status: available
   order: 16
 
 - id: end-of-day-cash-check
@@ -138,7 +137,7 @@
   name: "End-of-day cash check"
   text: "Compare the cash the app expects with the cash actually counted."
   icon: chart
-  status: unverified
+  status: available
   order: 17
 
 - id: profit-and-sales-reports
@@ -146,23 +145,23 @@
   name: "Profit and sales reports"
   text: "Reports by product, staff member and payment type, with export to Excel."
   icon: chart
-  status: unverified
+  status: available
   order: 18
 
 - id: today's-sales-on-the-owner's-phone
   group: Reports
-  name: "Today's sales on the owner's phone"
-  text: "A summary of the day's sales for the owner."
+  name: "Owner dashboard (online version)"
+  text: "Sign in from any browser to see the day's sales and reports across branches."
   icon: chart
-  status: unverified
+  status: available
   order: 19
 
 - id: printed-receipts
   group: Receipts
   name: "Printed receipts"
-  text: "Print receipts on a Bluetooth thermal printer."
+  text: "Print receipts on a 58 mm or 80 mm Bluetooth thermal printer (Android), or automatically after every sale."
   icon: printer
-  status: unverified
+  status: available
   order: 20
 
 - id: shareable-receipts
@@ -170,7 +169,7 @@
   name: "Shareable receipts"
   text: "Share a receipt as an image, for example on WhatsApp."
   icon: receipt
-  status: unverified
+  status: available
   order: 21
 
 - id: sales-history-and-reprints
@@ -178,7 +177,7 @@
   name: "Sales history and reprints"
   text: "Look up past sales and reprint their receipts."
   icon: receipt
-  status: unverified
+  status: available
   order: 22
 
 - id: works-offline
@@ -186,15 +185,15 @@
   name: "Works offline"
   text: "Record sales and stock without an internet connection."
   icon: offline
-  status: unverified
+  status: available
   order: 23
 
 - id: device-activation
   group: Data and setup
   name: "Device activation"
-  text: "The app is activated per device with an activation code."
+  text: "Each device is unlocked with its own activation code, on a lifetime, yearly or monthly licence."
   icon: shield
-  status: unverified
+  status: available
   order: 24
 
 - id: backup-and-recovery
@@ -202,7 +201,7 @@
   name: "Backup and recovery"
   text: "Back up business data and restore it to a device."
   icon: shield
-  status: unverified
+  status: available
   order: 25
 
 - id: cloud-connection-online-version
@@ -210,7 +209,7 @@
   name: "Cloud connection (online version)"
   text: "Connect the app to the cloud so records can be shared beyond one device."
   icon: cloud
-  status: unverified
+  status: available
   order: 26
 
 - id: first-time-setup-guide
@@ -218,7 +217,7 @@
   name: "First-time setup guide"
   text: "A guided setup when the app is first installed."
   icon: check
-  status: unverified
+  status: available
   order: 27
 
 - id: dark-mode-and-text-size
@@ -226,5 +225,5 @@
   name: "Dark mode and text size"
   text: "Choose a dark display and adjust text size for comfort."
   icon: check
-  status: unverified
+  status: available
   order: 28

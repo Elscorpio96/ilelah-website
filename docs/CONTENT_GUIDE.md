@@ -168,3 +168,21 @@ These protect the business's credibility:
 - Prices only as approved, and always "confirmed in writing"
 - Courses are "practical skills training", not accredited qualifications
 - Mock-ups, if ever used, must be clearly labelled as mock-ups
+
+## Company profile PDF
+
+The downloadable profile lives at `public/downloads/ilelah-technologies-company-profile.pdf`.
+Its source is `scripts/profile/company-profile.html`. After changing services, prices or contact
+details on the site, update that file to match and run `npm run profile` (set `PW_CHROMIUM_PATH`
+if Playwright's own Chromium is not installed), then commit the new PDF.
+
+## Islamic Academy (coming soon)
+
+`/islamic-academy/` is a register-interest page only. The name is not decided: set
+`site.islamicAcademy.name` in `src/config/site.ts` once it is chosen, and update the navigation
+labels in `src/config/navigation.ts`. Do not publish programmes, fees or dates until they are confirmed.
+
+## Business Suite features
+
+All features in `src/content/business-suite-features.yaml` were checked against the app source on
+2026-11-23. Re-check after major app releases and mark anything removed as `planned` or delete it.

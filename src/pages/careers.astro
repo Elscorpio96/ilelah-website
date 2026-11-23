@@ -1,0 +1,79 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { site } from '@/config/site';
+
+const applyHref = '/contact/?service=careers';
+---
+<PageLayout
+  title="Careers"
+  description="Work with Ilelah Technologies in Bauchi: how to apply for future roles, internships and SIWES industrial training placements."
+  heading="Careers at Ilelah Technologies"
+  intro="We are a growing team. We do not have any open positions advertised right now, but we are always glad to hear from people who want to build useful technology."
+  crumbs={[{ label: 'About', href: '/about/' }, { label: 'Careers', href: '/careers/' }]}
+  cta={false}
+>
+  <div slot="header" class="btn-row">
+    <a class="btn btn--primary" href={applyHref}>Introduce yourself</a>
+  </div>
+
+  <section class="section">
+    <div class="container split">
+      <h2>Current openings</h2>
+      <div class="stack">
+        <p class="lede">There are no open roles at the moment.</p>
+        <p>When we have a vacancy, it will be listed on this page with the duties, requirements and how to apply. We do not charge any fee to apply for a job or internship. If someone asks you for money in our name, do not pay, and let us know.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <div class="section-head">
+        <h2>Who we like to hear from</h2>
+      </div>
+      <ul class="roles" role="list">
+        <li><h3>Developers</h3><p>Web, mobile and software developers who care about building things that work on real devices and real internet connections.</p></li>
+        <li><h3>Designers</h3><p>Graphic and interface designers who can make information clear and brands look professional.</p></li>
+        <li><h3>ICT and support technicians</h3><p>People who enjoy setting up computers, networks and camera systems, and explaining them patiently.</p></li>
+        <li><h3>Trainers</h3><p>People who can teach digital skills to beginners and young people in plain language.</p></li>
+        <li><h3>Students on industrial training</h3><p>Students looking for SIWES or other industrial training placements. Places depend on our capacity at the time.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <h2>How to get in touch</h2>
+      <div class="stack">
+        <p>Send us a short message through the contact form and choose "Jobs, internships and careers". Tell us what you do, what you would like to work on, and include a link to your CV, portfolio or GitHub profile if you have one.</p>
+        <p>You can also email your CV to <a href={`mailto:${site.contact.email}?subject=Careers`}>{site.contact.email}</a> with "Careers" in the subject.</p>
+        <p class="muted">We use your details only to consider you for work with us. See our <a href="/privacy/">privacy policy</a>.</p>
+        <div class="btn-row"><a class="btn btn--primary" href={applyHref}>Introduce yourself</a></div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .roles {
+    display: grid;
+    gap: var(--s-6);
+  }
+  @media (min-width: 48rem) {
+    .roles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .roles li {
+    display: grid;
+    gap: var(--s-2);
+    padding-left: var(--s-5);
+    border-left: 2px solid var(--gold);
+  }
+  .roles h3 {
+    font-size: var(--step-1);
+  }
+  .roles p {
+    color: var(--ink-soft);
+  }
+</style>
