@@ -1,6 +1,6 @@
 /*
  * Ilelah Technologies design tokens.
- * Keep colour values in sync with scripts/brand/build_brand.py.
+ * Navy and gold are taken from the official logo (scripts/brand/source/).
  * Contrast ratios (on white unless noted) are recorded in docs/BRAND_GUIDE.md.
  */
 :root {
@@ -13,15 +13,15 @@
   --line: #dfe3ea;          /* borders and rules */
   --line-strong: #c4cbd6;
 
-  --navy: #0f2a4a;          /* primary brand, 14.5:1 */
-  --navy-hover: #173a63;
-  --navy-deep: #0a1d35;     /* dark bands and footer */
+  --navy: #00143c;          /* primary brand (from the official logo), 18.0:1 */
+  --navy-hover: #0a2554;
+  --navy-deep: #000c26;     /* dark bands and footer */
   --navy-tint: #e8edf4;
   --on-navy: #ffffff;
-  --on-navy-soft: #c9d3e1;  /* 11.2:1 on navy-deep */
+  --on-navy-soft: #c9d3e1;  /* 12.9:1 on navy-deep */
 
-  --gold: #c8a24a;          /* accent: marks and rules on light; text only on navy (6.0:1+) */
-  --gold-ink: #7a5c12;      /* gold-family text on white, 6.2:1 */
+  --gold: #c8922a;          /* accent: marks and rules on light; text only on navy (6.5:1+) */
+  --gold-ink: #7a5306;      /* gold-family text on white, 6.9:1 */
   --gold-tint: #f7f0dc;
 
   --success: #1e6b3a;

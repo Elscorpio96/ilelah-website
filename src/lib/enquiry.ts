@@ -234,12 +234,12 @@ export function buildNotificationEmail(e: Enquiry, reference: string, receivedAt
     'Reply to this email to respond directly to the sender.',
   ].join('\n');
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#12161c;line-height:1.5">
-<h2 style="color:#0f2a4a;margin:0 0 12px">${escapeHtml(FORM_TYPE_LABELS[e.formType])} ${escapeHtml(reference)}</h2>
+<h2 style="color:#00143c;margin:0 0 12px">${escapeHtml(FORM_TYPE_LABELS[e.formType])} ${escapeHtml(reference)}</h2>
 <table cellpadding="6" style="border-collapse:collapse">${rows
     .map(([k, v]) => `<tr><td style="color:#4a5363;vertical-align:top"><strong>${escapeHtml(k)}</strong></td><td>${escapeHtml(v)}</td></tr>`)
     .join('')}</table>
-<h3 style="color:#0f2a4a">Message</h3><p style="white-space:pre-wrap">${escapeHtml(e.message)}</p>
-${e.outcome ? `<h3 style="color:#0f2a4a">Desired outcome</h3><p style="white-space:pre-wrap">${escapeHtml(e.outcome)}</p>` : ''}
+<h3 style="color:#00143c">Message</h3><p style="white-space:pre-wrap">${escapeHtml(e.message)}</p>
+${e.outcome ? `<h3 style="color:#00143c">Desired outcome</h3><p style="white-space:pre-wrap">${escapeHtml(e.outcome)}</p>` : ''}
 <p style="color:#5b6475;font-size:13px">Reply to this email to respond directly to the sender.</p>
 </body></html>`;
   return { subject, text, html };

@@ -16,7 +16,7 @@ The corporate website for **Ilelah Technologies**: a fast, static site built wit
 | Node.js | **22.23.4 or newer** (24 LTS recommended) | Astro 7 requires it |
 | npm | comes with Node.js | installs packages |
 | Git | any recent version | version control and deployment |
-| Python 3 (optional) | 3.10+ | only to regenerate logo files |
+| Python 3 + Pillow (optional) | 3.10+ | only to regenerate logo files |
 
 Check what you have (PowerShell or Command Prompt):
 
@@ -87,7 +87,7 @@ Step-by-step instructions, including the custom domain, are in [docs/DEPLOYMENT.
 | Add a course, project, article or FAQ | See [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md) |
 | Hide prices | Set `showPricing: false` in `src/config/site.ts` |
 | Turn on search indexing | Set `PUBLIC_ALLOW_INDEXING=true` in Cloudflare (production only) |
-| Regenerate logo files | `npm run brand` (needs Python, see the brand guide) |
+| Regenerate logo files after a logo change | Replace `scripts/brand/source/ilelah-logo-source.png`, then `npm run brand` |
 
 ## Documentation
 

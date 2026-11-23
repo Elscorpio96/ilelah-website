@@ -6,13 +6,14 @@ ilelah-website/
 │   ├── api/enquiry.ts          POST /api/enquiry: checks and emails form submissions
 │   └── tsconfig.json           Type settings for the Cloudflare runtime
 ├── public/                     Copied to the site as-is
-│   ├── brand/                  Logo files (SVG and PNG), see BRAND_GUIDE.md
-│   ├── favicon.svg, favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png
+│   ├── brand/                  Logo files cut from the official logo, see BRAND_GUIDE.md
+│   ├── favicon.ico, favicon-64.png, apple-touch-icon.png, icon-192.png, icon-512.png
 │   ├── og-default.png          Image shown when a page is shared on social media
 │   ├── site.webmanifest
 │   └── _routes.json            Tells Cloudflare only /api/* runs server code
 ├── scripts/
-│   ├── brand/build_brand.py    Generates all logo and icon files (npm run brand)
+│   ├── brand/build_brand.py    Cuts the official logo into web and icon files (npm run brand)
+│   ├── brand/source/           The official logo and company seal, as supplied
 │   └── postbuild.mjs           Writes dist/_headers (security headers, CSP hashes) and checks for leaked secrets
 ├── src/
 │   ├── config/
